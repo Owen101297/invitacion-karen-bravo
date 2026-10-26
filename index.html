@@ -2,9 +2,9 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Karen Bravo · 30 de octubre</title>
-<meta name="description" content="Cumpleaños de Karen Bravo. Viernes 30 de octubre, 7:00 p. m. en la Casa de Yamit. Confirma tu asistencia por WhatsApp.">
+<meta name="description" content="Cumpleaños de Karen Bravo. Viernes 30 de octubre, 7:00 p. m. en la Casa de Yamit. Confirma por WhatsApp cuántos vienen.">
 <meta name="theme-color" content="#170A13">
 
 <meta property="og:type" content="website">
@@ -14,372 +14,614 @@
 <meta property="og:image" content="https://owen101297.github.io/invitacion-karen-bravo/assets/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Invitación al cumpleaños de Karen Bravo">
+<meta property="og:image:alt" content="Karen Bravo, cumpleaños el 30 de octubre">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://owen101297.github.io/invitacion-karen-bravo/assets/og.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23170A13'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='28' fill='%23D6AE69' text-anchor='middle'%3EKB%3C/text%3E%3C/svg%3E">
 
 <style>
   :root{
     --cream:#F3E7D8;
     --gold:#D6AE69;
-    --gold-soft:rgba(214,174,105,.42);
+    --gold-2:#E4C48A;
     --ink:#170A13;
-    --wa:#25D366;
+    --pad: clamp(16px, 2.6vh, 26px);
+    --lift: 0px;
   }
 
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-  html{-webkit-text-size-adjust:100%;background:#11060F}
-
-  body{
-    min-height:100dvh;
-    background:
-      radial-gradient(120% 60% at 50% -8%, #5C2239 0%, #3D1829 26%, #26111D 58%, #170A13 82%, #11060F 100%);
-    background-attachment:fixed;
-    color:var(--cream);
-    font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif;
-    -webkit-font-smoothing:antialiased;
-    text-rendering:optimizeLegibility;
-    padding:clamp(18px,4vw,40px) clamp(16px,4vw,32px) calc(40px + env(safe-area-inset-bottom));
-    display:flex;
-    justify-content:center;
+  html,body{
+    height:100%;
+    overflow:clip;
+    background:#11060F;
+    -webkit-text-size-adjust:100%;
   }
 
-  /* grano sutil */
-  body::before{
-    content:"";
+  body{
+    color:var(--cream);
+    font-family:'Cormorant Garamond',Georgia,serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------------- escenario ---------------- */
+  .stage{
     position:fixed;
     inset:0;
+    display:grid;
+    grid-template-rows:auto 1fr auto;
+    padding:
+      calc(var(--pad) + env(safe-area-inset-top))
+      calc(var(--pad) + env(safe-area-inset-right))
+      calc(var(--pad) + env(safe-area-inset-bottom))
+      calc(var(--pad) + env(safe-area-inset-left));
+    transition:transform .18s ease;
+  }
+
+  /* teclado abierto: subimos todo para que el campo quede visible */
+  body.typing .stage{transform:translateY(calc(-1 * var(--lift, 0px)))}
+  body.typing .note,
+  body.typing .deadline,
+  body.typing .countdown{display:none}
+
+  /* ---------------- foto ---------------- */
+  .photo{
+    position:absolute;
+    inset:0;
     z-index:0;
+    overflow:hidden;
+  }
+
+  .photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:64% 26%;
+    display:block;
+    animation:drift 26s ease-in-out infinite alternate;
+  }
+
+  @keyframes drift{
+    from{transform:scale(1.02) translate3d(0,0,0)}
+    to  {transform:scale(1.09) translate3d(-1.2%,-1.4%,0)}
+  }
+
+  /* velos: arriba para el título, abajo para la tarjeta */
+  .veil{
+    position:absolute;
+    inset:0;
+    z-index:1;
     pointer-events:none;
-    opacity:.045;
+    background:
+      linear-gradient(180deg,
+        rgba(17,6,15,.90) 0%,
+        rgba(17,6,15,.55) 14%,
+        rgba(23,10,19,.18) 32%,
+        rgba(23,10,19,0) 44%,
+        rgba(23,10,19,.30) 60%,
+        rgba(23,10,19,.80) 76%,
+        rgba(17,6,15,.97) 88%,
+        #11060F 100%),
+      radial-gradient(130% 90% at 72% 26%, rgba(17,6,15,0) 26%, rgba(17,6,15,.42) 100%),
+      radial-gradient(90% 60% at 70% 22%, rgba(214,174,105,.16), rgba(214,174,105,0) 62%);
+  }
+
+  .grain{
+    position:absolute;
+    inset:0;
+    z-index:2;
+    pointer-events:none;
+    opacity:.05;
     mix-blend-mode:overlay;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  .page{
+  /* ---------------- encabezado ---------------- */
+  .head{
     position:relative;
-    z-index:1;
-    width:100%;
-    max-width:560px;
-    display:flex;
-    flex-direction:column;
-    gap:clamp(26px,5vw,38px);
+    z-index:3;
+    text-align:center;
+    animation:rise .9s cubic-bezier(.22,.8,.3,1) both;
   }
 
-  /* ---------- tarjeta ---------- */
-  .invite{
-    position:relative;
-    border-radius:6px;
-    padding:8px;
-    background:linear-gradient(160deg,rgba(214,174,105,.55),rgba(214,174,105,.12) 42%,rgba(214,174,105,.38));
-    box-shadow:0 24px 60px -18px rgba(0,0,0,.75), 0 0 90px -30px rgba(214,174,105,.5);
-  }
-
-  .invite img{
-    display:block;
-    width:100%;
-    height:auto;
-    border-radius:2px;
-    background:#1d0c16;
-  }
-
-  /* ---------- cuenta regresiva ---------- */
-  .countdown{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:14px;
-  }
-
-  .countdown .label{
+  .eyebrow{
     font-family:'Montserrat',sans-serif;
     font-weight:300;
-    font-size:11px;
-    letter-spacing:.46em;
-    text-indent:.46em;
+    font-size:clamp(9px,1.15vh,12px);
+    letter-spacing:.52em;
+    text-indent:.52em;
     text-transform:uppercase;
-    color:rgba(243,231,216,.5);
+    color:rgba(243,231,216,.72);
+    text-shadow:0 1px 12px rgba(17,6,15,.8);
   }
 
-  .clock{display:flex;align-items:flex-start;gap:clamp(14px,5vw,30px)}
-  .unit{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:52px}
-  .unit b{
-    font-family:'Cormorant Garamond',Georgia,serif;
+  .name{
+    font-family:'Great Vibes','Segoe Script',cursive;
     font-weight:400;
-    font-size:clamp(34px,9vw,44px);
-    line-height:1;
-    font-variant-numeric:tabular-nums;
-    background:linear-gradient(180deg,#F8E7BC,#DCB779 50%,#B98B45);
+    font-size:clamp(44px,9.6vh,86px);
+    line-height:.95;
+    margin-top:.18em;
+    padding:0 .1em .1em;
+    background:linear-gradient(180deg,#FBEED0 0%,#E4C48A 42%,#BE9350 100%);
     -webkit-background-clip:text;
     background-clip:text;
     color:transparent;
+    filter:drop-shadow(0 4px 22px rgba(17,6,15,.75));
   }
-  .unit span{
+
+  .rule{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    margin-top:clamp(6px,1.2vh,14px);
+  }
+  .rule span{display:block;width:clamp(38px,9vw,72px);height:1px;background:linear-gradient(90deg,transparent,rgba(214,174,105,.8),transparent)}
+  .rule i{display:block;width:6px;height:6px;transform:rotate(45deg);border:1px solid rgba(214,174,105,.9)}
+
+  /* ---------------- tarjeta ---------------- */
+  .sheet{
+    position:relative;
+    z-index:3;
+    width:100%;
+    max-width:520px;
+    margin:0 auto;
+    padding:calc(var(--pad) * .92) calc(var(--pad) * .9);
+    border:1px solid rgba(214,174,105,.28);
+    border-radius:20px;
+    background:linear-gradient(165deg, rgba(63,27,44,.60) 0%, rgba(30,13,24,.72) 55%, rgba(20,8,17,.82) 100%);
+    box-shadow:0 26px 70px -22px rgba(0,0,0,.85), inset 0 1px 0 rgba(255,255,255,.07);
+    -webkit-backdrop-filter:blur(16px) saturate(125%);
+    backdrop-filter:blur(16px) saturate(125%);
+    animation:rise .9s cubic-bezier(.22,.8,.3,1) .12s both;
+  }
+
+  .sheet::before{
+    content:"";
+    position:absolute;
+    top:-4px; left:50%;
+    width:7px; height:7px;
+    transform:translateX(-50%) rotate(45deg);
+    background:#170A13;
+    border:1px solid rgba(214,174,105,.75);
+  }
+
+  .when{text-align:center}
+
+  .date{
+    font-family:'Montserrat',sans-serif;
+    font-weight:400;
+    font-size:clamp(10px,1.45vh,12.5px);
+    letter-spacing:.34em;
+    text-indent:.34em;
+    text-transform:uppercase;
+    color:var(--gold-2);
+  }
+
+  .where{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:clamp(16px,2.4vh,21px);
+    letter-spacing:.04em;
+    color:rgba(243,231,216,.94);
+    margin-top:.22em;
+  }
+
+  .countdown{
     font-family:'Montserrat',sans-serif;
     font-weight:300;
-    font-size:9px;
-    letter-spacing:.28em;
-    text-indent:.28em;
+    font-size:clamp(8.5px,.95vh,10px);
+    letter-spacing:.22em;
+    text-indent:.22em;
     text-transform:uppercase;
     color:rgba(243,231,216,.42);
-  }
-  .sep{width:1px;height:34px;margin-top:8px;background:linear-gradient(180deg,transparent,rgba(214,174,105,.4),transparent)}
-
-  /* ---------- acciones ---------- */
-  .actions{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:16px;
-    padding-top:clamp(22px,5vw,30px);
-    border-top:1px solid rgba(214,174,105,.18);
+    margin-top:.75em;
+    font-variant-numeric:tabular-nums;
   }
 
-  .rsvp-label{
+  .note{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-style:italic;
+    font-size:clamp(13px,1.7vh,15.5px);
+    line-height:1.35;
+    color:rgba(243,231,216,.58);
+    text-align:center;
+    margin-top:.85em;
+    padding-top:.85em;
+    border-top:1px solid rgba(214,174,105,.16);
+  }
+
+  .deadline{
     font-family:'Montserrat',sans-serif;
     font-weight:300;
-    font-size:11px;
-    letter-spacing:.46em;
-    text-indent:.46em;
+    font-size:clamp(8.5px,.95vh,10px);
+    letter-spacing:.2em;
+    text-indent:.2em;
     text-transform:uppercase;
-    color:rgba(243,231,216,.5);
+    color:rgba(214,174,105,.85);
+    text-align:center;
+    margin-top:.95em;
   }
 
-  .btn{
+  /* ---------------- formulario ---------------- */
+  .field{ margin-top:calc(var(--pad) * .55) }
+
+  .field label{
+    display:block;
+    font-family:'Montserrat',sans-serif;
+    font-weight:300;
+    font-size:clamp(8.5px,.95vh,10px);
+    letter-spacing:.24em;
+    text-indent:.24em;
+    text-transform:uppercase;
+    color:rgba(243,231,216,.55);
+    margin-bottom:.55em;
+  }
+
+  .field label em{
+    font-style:normal;
+    letter-spacing:.06em;
+    text-transform:none;
+    color:rgba(243,231,216,.35);
+  }
+
+  #who{
+    width:100%;
+    height:clamp(38px,5.2vh,46px);
+    padding:0 2px;
+    background:transparent;
+    border:0;
+    border-bottom:1px solid rgba(214,174,105,.38);
+    border-radius:0;
+    color:var(--cream);
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:clamp(17px,2.3vh,20px);
+    text-align:center;
+    outline:none;
+    transition:border-color .2s ease, background .2s ease;
+    -webkit-appearance:none;
+    appearance:none;
+  }
+  #who::placeholder{color:rgba(243,231,216,.32);font-style:italic}
+  #who:focus{border-bottom-color:rgba(214,174,105,.9);background:rgba(214,174,105,.05)}
+
+  .counter-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:calc(var(--pad) * .5);
+  }
+
+  .counter-label{
+    font-family:'Montserrat',sans-serif;
+    font-weight:300;
+    font-size:clamp(8.5px,.95vh,10px);
+    letter-spacing:.2em;
+    text-indent:.2em;
+    text-transform:uppercase;
+    color:rgba(243,231,216,.55);
+  }
+  .counter-label em{display:block;font-style:normal;letter-spacing:.06em;text-transform:none;color:rgba(243,231,216,.32);margin-top:.4em}
+
+  .stepper{display:flex;align-items:center;gap:10px}
+
+  .step{
+    width:clamp(30px,4.2vh,36px);
+    height:clamp(30px,4.2vh,36px);
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    border:1px solid rgba(214,174,105,.42);
+    background:rgba(214,174,105,.06);
+    color:var(--gold-2);
+    font-family:'Montserrat',sans-serif;
+    font-size:16px;
+    line-height:1;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    transition:background .16s ease,border-color .16s ease,opacity .16s ease;
+  }
+  .step:hover{background:rgba(214,174,105,.16);border-color:rgba(214,174,105,.7)}
+  .step:disabled{opacity:.28;cursor:default}
+
+  #total{
+    min-width:2.2ch;
+    text-align:center;
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:clamp(24px,3.4vh,30px);
+    line-height:1;
+    color:var(--cream);
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ---------------- botón ---------------- */
+  .cta{
     display:flex;
     align-items:center;
     justify-content:center;
     gap:10px;
     width:100%;
-    min-height:60px;
-    padding:18px 26px;
+    height:clamp(48px,6.6vh,58px);
+    margin-top:calc(var(--pad) * .8);
+    border:0;
     border-radius:999px;
+    background:linear-gradient(135deg,#F8E8BE 0%,#DCB779 46%,#C1934A 100%);
+    color:#2A1020;
     font-family:'Montserrat',sans-serif;
-    font-size:14px;
+    font-size:clamp(10.5px,1.35vh,12.5px);
     font-weight:500;
     letter-spacing:.16em;
     text-indent:.16em;
     text-transform:uppercase;
     text-decoration:none;
+    cursor:pointer;
+    box-shadow:0 14px 32px -12px rgba(214,174,105,.6), inset 0 1px 0 rgba(255,255,255,.55);
     -webkit-tap-highlight-color:transparent;
-    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+    transition:transform .16s ease, box-shadow .16s ease;
+  }
+  .cta:hover{transform:translateY(-1px);box-shadow:0 18px 38px -12px rgba(214,174,105,.72), inset 0 1px 0 rgba(255,255,255,.6)}
+  .cta:active{transform:scale(.99)}
+  .cta svg{width:19px;height:19px;flex:none}
+
+  .cta.pulse{animation:pulse 1.15s ease-out 2}
+  @keyframes pulse{
+    0%{box-shadow:0 14px 32px -12px rgba(214,174,105,.6), 0 0 0 0 rgba(232,201,140,.55), inset 0 1px 0 rgba(255,255,255,.55)}
+    70%{box-shadow:0 14px 32px -12px rgba(214,174,105,.6), 0 0 0 16px rgba(232,201,140,0), inset 0 1px 0 rgba(255,255,255,.55)}
+    100%{box-shadow:0 14px 32px -12px rgba(214,174,105,.6), 0 0 0 0 rgba(232,201,140,0), inset 0 1px 0 rgba(255,255,255,.55)}
   }
 
-  .btn-primary{
-    background:linear-gradient(135deg,#F6E4B6 0%,#DBB578 48%,#C1934A 100%);
-    color:#2A1020;
-    box-shadow:0 14px 34px -10px rgba(214,174,105,.55), inset 0 1px 0 rgba(255,255,255,.55);
+  /* ---------------- pie de la tarjeta ---------------- */
+  .foot{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:26px;
+    margin-top:calc(var(--pad) * .62);
   }
-  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 18px 40px -10px rgba(214,174,105,.65), inset 0 1px 0 rgba(255,255,255,.6)}
-  .btn-primary:active{transform:translateY(0) scale(.99)}
 
-  .btn-primary svg{flex:none;width:20px;height:20px}
-
-  .btn-ghost{
-    width:auto;
-    min-height:0;
-    padding:2px 2px 4px;
+  .troll{
+    display:inline-block;
+    padding:4px 2px;
     background:none;
+    border:0;
+    border-bottom:1px solid rgba(214,174,105,.3);
     color:rgba(243,231,216,.55);
     font-family:'Cormorant Garamond',Georgia,serif;
     font-style:italic;
-    font-size:17px;
-    font-weight:400;
-    letter-spacing:.02em;
-    text-indent:0;
-    text-transform:none;
-    border-bottom:1px solid rgba(214,174,105,.28);
-    border-radius:0;
-  }
-  .btn-ghost:hover{color:rgba(243,231,216,.8);border-bottom-color:rgba(214,174,105,.55)}
-
-  .hint{
-    font-family:'Montserrat',sans-serif;
-    font-weight:300;
-    font-size:11.5px;
-    letter-spacing:.06em;
-    line-height:1.7;
-    text-align:center;
-    color:rgba(243,231,216,.42);
-    margin-top:-4px;
-  }
-
-  .extras{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:9px;
-    width:100%;
-    margin-top:14px;
-  }
-
-  .extra{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:7px;
-    min-height:64px;
-    padding:12px 6px;
-    background:rgba(214,174,105,.045);
-    border:1px solid rgba(214,174,105,.2);
-    border-radius:12px;
+    font-size:clamp(14px,1.85vh,16.5px);
     cursor:pointer;
-    font-family:'Montserrat',sans-serif;
-    font-weight:300;
-    font-size:9.5px;
-    letter-spacing:.13em;
-    text-indent:.13em;
-    text-transform:uppercase;
-    color:rgba(214,174,105,.8);
-    text-decoration:none;
     -webkit-tap-highlight-color:transparent;
-    transition:border-color .18s ease, background .18s ease, color .18s ease;
+    transition:transform .13s cubic-bezier(.3,1.4,.5,1), opacity .3s ease, color .2s ease;
+    will-change:transform;
+    touch-action:none;
+    white-space:nowrap;
   }
-  .extra:hover{
-    border-color:rgba(214,174,105,.45);
-    background:rgba(214,174,105,.1);
-    color:var(--gold);
+  .troll:hover{color:rgba(243,231,216,.78)}
+  .troll.done{
+    border-bottom-color:transparent;
+    color:rgba(214,174,105,.92);
+    font-style:normal;
+    cursor:default;
+    pointer-events:none;
   }
-  .extra svg{width:16px;height:16px;flex:none}
 
-  footer{
+  .icons{
+    position:absolute;
+    right:0;
+    top:50%;
+    transform:translateY(-50%);
     display:flex;
-    flex-direction:column;
-    align-items:center;
     gap:8px;
-    text-align:center;
-    padding-top:6px;
-  }
-  footer .place{
-    font-family:'Montserrat',sans-serif;
-    font-weight:300;
-    font-size:10.5px;
-    letter-spacing:.36em;
-    text-indent:.36em;
-    text-transform:uppercase;
-    color:rgba(243,231,216,.32);
-  }
-  footer .phone{
-    font-family:'Cormorant Garamond',Georgia,serif;
-    font-size:20px;
-    letter-spacing:.16em;
-    color:rgba(214,174,105,.6);
-    text-decoration:none;
   }
 
+  .icon{
+    width:clamp(28px,3.6vh,32px);
+    height:clamp(28px,3.6vh,32px);
+    display:grid;
+    place-items:center;
+    border-radius:9px;
+    border:1px solid rgba(214,174,105,.25);
+    background:rgba(214,174,105,.05);
+    color:rgba(214,174,105,.8);
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    transition:border-color .16s ease,background .16s ease,color .16s ease;
+  }
+  .icon:hover{border-color:rgba(214,174,105,.5);background:rgba(214,174,105,.12);color:var(--gold)}
+  .icon svg{width:14px;height:14px}
+
+  /* ---------------- aviso ---------------- */
   .toast{
     position:fixed;
     left:50%;
-    bottom:calc(26px + env(safe-area-inset-bottom));
-    transform:translate(-50%,16px);
-    z-index:50;
-    opacity:0;
-    pointer-events:none;
-    padding:12px 22px;
+    bottom:calc(16px + env(safe-area-inset-bottom));
+    transform:translate(-50%,14px);
+    z-index:60;
+    max-width:calc(100vw - 32px);
+    padding:10px 18px;
     border-radius:999px;
-    background:rgba(30,12,24,.94);
-    border:1px solid rgba(214,174,105,.35);
+    background:rgba(28,11,22,.96);
+    border:1px solid rgba(214,174,105,.4);
     color:var(--cream);
     font-family:'Montserrat',sans-serif;
-    font-size:12px;
-    letter-spacing:.08em;
-    transition:opacity .25s ease, transform .25s ease;
-    backdrop-filter:blur(8px);
+    font-size:11px;
+    letter-spacing:.06em;
+    text-align:center;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .22s ease, transform .22s ease;
   }
   .toast.show{opacity:1;transform:translate(-50%,0)}
 
-  /* entrada */
-  .rise{opacity:0;transform:translateY(14px);animation:rise .8s cubic-bezier(.22,.8,.3,1) forwards}
-  .d1{animation-delay:.05s}.d2{animation-delay:.18s}.d3{animation-delay:.3s}.d4{animation-delay:.42s}
-  @keyframes rise{to{opacity:1;transform:none}}
-
-  @media (prefers-reduced-motion:reduce){
-    .rise{animation:none;opacity:1;transform:none}
-    .btn{transition:none}
+  /* ---------------- motion ---------------- */
+  @keyframes rise{
+    from{opacity:0;transform:translateY(12px)}
+    to{opacity:1;transform:none}
   }
 
-  @media (min-width:700px){
-    .page{max-width:600px}
+  @media (prefers-reduced-motion:reduce){
+    .photo img{animation:none}
+    .head,.sheet{animation:none}
+    .cta.pulse{animation:none}
+    .troll{transition:none}
+  }
+
+  /* ---------------- pantallas bajas ---------------- */
+  @media (max-height:720px){
+    .note{display:none}
+  }
+  @media (max-height:620px){
+    .countdown{display:none}
+    .sheet::before{display:none}
+    .name{font-size:clamp(38px,8.4vh,62px)}
+    .field{margin-top:calc(var(--pad) * .4)}
+  }
+
+  /* ---------------- horizontal ---------------- */
+  @media (orientation:landscape) and (max-height:560px){
+    :root{--pad:10px}
+    .note,.countdown,.rule{display:none}
+    .name{font-size:clamp(30px,8.2vh,46px)}
+    .sheet{max-width:440px}
+    .where{font-size:15px}
+    .cta{height:42px;margin-top:10px}
+    .troll{font-size:13px}
+  }
+
+  /* ---------------- escritorio ---------------- */
+  @media (min-width:900px){
+    :root{--pad:20px}
+
+    .stage{
+      grid-template-columns:minmax(300px,520px) minmax(0,1fr);
+      grid-template-rows:auto 1fr;
+      align-content:center;
+      gap:0 clamp(20px,3vw,52px);
+      padding:clamp(26px,4vh,50px) clamp(36px,5vw,72px);
+    }
+
+    .head{
+      grid-column:1;
+      grid-row:1;
+      align-self:end;
+      text-align:left;
+    }
+
+    .rule{justify-content:flex-start}
+    .name{font-size:clamp(58px,8.6vh,108px)}
+
+    .sheet{
+      grid-column:1;
+      grid-row:2;
+      align-self:start;
+      max-width:460px;
+      margin:clamp(10px,1.8vh,24px) 0 0;
+    }
+
+    .veil{
+      background:
+        linear-gradient(90deg,
+          rgba(17,6,15,.97) 0%,
+          rgba(20,8,16,.90) 24%,
+          rgba(23,10,19,.52) 46%,
+          rgba(23,10,19,.10) 68%,
+          rgba(23,10,19,0) 84%),
+        linear-gradient(180deg,
+          rgba(17,6,15,.55) 0%,
+          rgba(17,6,15,.10) 22%,
+          rgba(17,6,15,0) 42%,
+          rgba(17,6,15,.28) 100%),
+        radial-gradient(80% 70% at 66% 26%, rgba(214,174,105,.15), rgba(214,174,105,0) 62%);
+    }
+
+    .photo img{object-position:60% 30%}
   }
 </style>
 </head>
 <body>
 
-<main class="page">
+<div class="stage" id="stage">
 
-  <div class="invite rise d1">
-    <img src="assets/invitacion-1080.jpg"
-         srcset="assets/invitacion-540.jpg 540w, assets/invitacion-1080.jpg 1080w"
-         sizes="(max-width: 640px) 92vw, 560px"
-         width="1080" height="1350"
-         alt="Invitación al cumpleaños de Karen Bravo: viernes 30 de octubre, 7:00 p. m., Casa de Yamit."
+  <div class="photo">
+    <img src="assets/foto-1080.jpg"
+         srcset="assets/foto-540.jpg 540w, assets/foto-1080.jpg 1080w"
+         sizes="100vw"
+         width="1080" height="1440"
+         alt="Karen Bravo"
          fetchpriority="high" decoding="async">
   </div>
+  <div class="veil"></div>
+  <div class="grain"></div>
 
-  <section class="countdown rise d2" id="countdown" aria-label="Cuenta regresiva">
-    <div class="label">Faltan</div>
-    <div class="clock">
-      <div class="unit"><b id="d">--</b><span>Días</span></div>
-      <div class="sep"></div>
-      <div class="unit"><b id="h">--</b><span>Horas</span></div>
-      <div class="sep"></div>
-      <div class="unit"><b id="m">--</b><span>Min</span></div>
+  <header class="head">
+    <div class="eyebrow">Cumpleaños de</div>
+    <h1 class="name">Karen Bravo</h1>
+    <div class="rule"><span></span><i></i><span></span></div>
+  </header>
+
+  <div></div>
+
+  <section class="sheet" id="sheet">
+
+    <div class="when">
+      <div class="date">Viernes 30 de octubre</div>
+      <div class="where">7:00 p. m. · Casa de Yamit</div>
+      <div class="countdown" id="countdown">faltan 4 días · 02 h · 09 m</div>
     </div>
-  </section>
 
-  <section class="actions rise d3">
-    <div class="rsvp-label">Confirma tu asistencia</div>
+    <p class="note">Hay comida, bebida y brindis 🥂 Solo necesito saber cuántos son para que no falte nada.</p>
 
-    <a class="btn btn-primary"
-       href="https://wa.me/573136332887?text=Hola%2C%20confirmo%20mi%20asistencia%20al%20cumplea%C3%B1os%20de%20Karen.%20Seremos%20___%20personas."
-       target="_blank" rel="noopener">
+    <div class="deadline">Confirma antes del miércoles 28</div>
+
+    <div class="field">
+      <label for="who">¿A nombre de quién?</label>
+      <input id="who" type="text" name="who" maxlength="42"
+             placeholder="Tu nombre o tu familia"
+             autocomplete="name" enterkeyhint="done"
+             spellcheck="false" aria-describedby="whoHelp">
+    </div>
+
+    <div class="counter-row">
+      <div class="counter-label" id="whoHelp">¿Cuántos vienen?<em>incluyéndote</em></div>
+      <div class="stepper">
+        <button class="step" id="minus" type="button" aria-label="Quitar una persona">−</button>
+        <span id="total" aria-live="polite">2</span>
+        <button class="step" id="plus" type="button" aria-label="Agregar una persona">+</button>
+      </div>
+    </div>
+
+    <button class="cta" id="confirm" type="button">
       <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
         <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.65.07-.3-.15-1.12-.41-2.14-1.32-.79-.7-1.32-1.57-1.47-1.87-.15-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.62-1.5-.85-2.05-.22-.53-.45-.46-.62-.47-.16 0-.35-.01-.54-.01-.19 0-.5.07-.76.37-.26.3-1 .98-1 2.38 0 1.4 1.02 2.76 1.16 2.95.14.19 1.99 3.04 4.82 4.26.67.29 1.2.46 1.61.59.68.22 1.3.19 1.79.11.55-.08 1.75-.71 2-1.4.25-.69.25-1.28.17-1.4-.07-.13-.27-.2-.57-.35zM12.03 2C6.51 2 2.03 6.48 2.03 12c0 1.77.46 3.42 1.27 4.86L2 22l5.28-1.27A9.94 9.94 0 0 0 12.03 22c5.52 0 10-4.48 10-10s-4.48-10-10-10zm0 18.19c-1.62 0-3.13-.47-4.4-1.29l-.32-.2-3.13.75.77-3.05-.21-.33a8.16 8.16 0 0 1-1.27-4.37c0-4.53 3.69-8.22 8.22-8.22 4.54 0 8.23 3.69 8.23 8.22 0 4.54-3.69 8.22-8.23 8.22z"/>
       </svg>
       Confirmar por WhatsApp
-    </a>
+    </button>
 
-    <div class="hint">313 633 2887 · indícanos cuántas personas vienen</div>
-
-    <a class="btn btn-ghost"
-       href="https://wa.me/573136332887?text=Hola%2C%20no%20podr%C3%A9%20asistir%20al%20cumplea%C3%B1os%20de%20Karen.%20%C2%A1Que%20lo%20disfruten%21"
-       target="_blank" rel="noopener">No podré asistir</a>
-
-    <div class="extras">
-      <button class="extra" id="ics" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
-          <rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>
-        </svg>
-        Calendario
-      </button>
-      <a class="extra" href="assets/invitacion-karen-bravo.pdf" download>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
-          <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/>
-        </svg>
-        PDF
-      </a>
-      <a class="extra" href="#" id="share">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
-          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
-          <path d="M8.6 10.6l6.8-4.2M8.6 13.4l6.8 4.2"/>
-        </svg>
-        Compartir
-      </a>
+    <div class="foot">
+      <button class="troll" id="decline" type="button">No podré asistir</button>
+      <div class="icons">
+        <button class="icon" id="ics" type="button" aria-label="Agregar al calendario" title="Agregar al calendario">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>
+          </svg>
+        </button>
+        <button class="icon" id="share" type="button" aria-label="Compartir la invitación" title="Compartir">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+            <path d="M8.6 10.6l6.8-4.2M8.6 13.4l6.8 4.2"/>
+          </svg>
+        </button>
+      </div>
     </div>
+
   </section>
 
-  <footer class="rise d4">
-    <div class="place">Casa de Yamit</div>
-    <a class="phone" href="https://wa.me/573136332887" target="_blank" rel="noopener">313 633 2887</a>
-  </footer>
-
-</main>
+</div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -387,41 +629,166 @@
 (function () {
   'use strict';
 
-  /* ---------- cuenta regresiva ---------- */
-  var TARGET = new Date('2026-10-30T19:00:00-05:00').getTime();
-  var pad = function (n) { return n < 10 ? '0' + n : String(n); };
-  var box = document.getElementById('countdown');
-  var elD = document.getElementById('d');
-  var elH = document.getElementById('h');
-  var elM = document.getElementById('m');
+  var PHONE = '573136332887';
+  var PARTY = new Date('2026-10-30T19:00:00-05:00');
+  var TOTAL_KEY = 'kb-total';
+  var NAME_KEY = 'kb-who';
 
+  var $ = function (id) { return document.getElementById(id); };
+  var sheet = $('sheet');
+  var who = $('who');
+  var totalEl = $('total');
+  var confirmBtn = $('confirm');
+  var minus = $('minus');
+  var plus = $('plus');
+
+  /* ---------------- cuenta regresiva ---------------- */
+  var pad2 = function (n) { return n < 10 ? '0' + n : String(n); };
   function tick() {
-    var diff = TARGET - Date.now();
-    if (diff <= 0) {
-      box.querySelector('.label').textContent = '¡Hoy es el día!';
-      box.querySelector('.clock').style.display = 'none';
-      clearInterval(timer);
-      return;
-    }
-    var totalMin = Math.floor(diff / 60000);
-    elD.textContent = Math.floor(totalMin / 1440);
-    elH.textContent = pad(Math.floor((totalMin % 1440) / 60));
-    elM.textContent = pad(totalMin % 60);
+    var diff = PARTY.getTime() - Date.now();
+    if (diff <= 0) { $('countdown').textContent = '¡hoy es el día!'; return; }
+    var min = Math.floor(diff / 60000);
+    var d = Math.floor(min / 1440);
+    var h = Math.floor((min % 1440) / 60);
+    var m = min % 60;
+    $('countdown').textContent =
+      'faltan ' + d + (d === 1 ? ' día' : ' días') + ' · ' + pad2(h) + ' h · ' + pad2(m) + ' m';
   }
-  var timer = setInterval(tick, 30000);
   tick();
+  setInterval(tick, 30000);
 
-  /* ---------- aviso flotante ---------- */
-  var toast = document.getElementById('toast');
+  /* ---------------- contador ---------------- */
+  var total = 2;
+  try {
+    var savedTotal = parseInt(localStorage.getItem(TOTAL_KEY), 10);
+    if (savedTotal >= 1 && savedTotal <= 15) { total = savedTotal; }
+    var savedName = localStorage.getItem(NAME_KEY);
+    if (savedName) { who.value = savedName; }
+  } catch (e) {}
+
+  function renderTotal() {
+    totalEl.textContent = total;
+    minus.disabled = total <= 1;
+    plus.disabled = total >= 15;
+    try { localStorage.setItem(TOTAL_KEY, String(total)); } catch (e) {}
+  }
+  renderTotal();
+
+  minus.addEventListener('click', function () { if (total > 1) { total--; renderTotal(); } });
+  plus.addEventListener('click', function () { if (total < 15) { total++; renderTotal(); } });
+
+  who.addEventListener('input', function () {
+    try { localStorage.setItem(NAME_KEY, who.value.trim()); } catch (e) {}
+  });
+
+  /* ---------------- aviso ---------------- */
+  var toast = $('toast');
   var toastTimer;
-  function showToast(msg) {
+  function showToast(msg, ms) {
     toast.textContent = msg;
     toast.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2600);
+    toastTimer = setTimeout(function () { toast.classList.remove('show'); }, ms || 2600);
   }
 
-  /* ---------- agregar al calendario (.ics) ---------- */
+  /* ---------------- confirmar ---------------- */
+  function message() {
+    var name = who.value.trim();
+    return 'Hola 👋 Soy ' + name + '.\n\n' +
+           '✅ Confirmo ' + total + (total === 1 ? ' persona' : ' personas') + ' para el cumple de Karen\n' +
+           '🎂 Viernes 30 de octubre · 7:00 p. m.\n' +
+           '📍 Casa de Yamit\n\n' +
+           '¡Nos vemos! 🥂';
+  }
+
+  function goToWhatsApp(text) {
+    window.open('https://wa.me/' + PHONE + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
+  }
+
+  confirmBtn.addEventListener('click', function () {
+    var name = who.value.trim();
+    if (name.length < 2) {
+      who.focus();
+      who.style.borderBottomColor = '#E0A0A0';
+      setTimeout(function () { who.style.borderBottomColor = ''; }, 900);
+      showToast('Escribe tu nombre para confirmar');
+      return;
+    }
+    goToWhatsApp(message());
+  });
+
+  who.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); confirmBtn.click(); }
+  });
+
+  /* ---------------- el botón escurridizo ---------------- */
+  var troll = $('decline');
+  var tries = 0;
+  var MAX = 5;
+  var finished = false;
+
+  function dodge() {
+    if (finished) { return; }
+    tries++;
+
+    if (tries >= MAX) {
+      finishTroll();
+      return;
+    }
+
+    var box = sheet.getBoundingClientRect();
+    var t = troll.getBoundingClientRect();
+    var spanX = Math.max(40, box.width - t.width - 118);
+    var nx = (Math.random() * 2 - 1) * spanX / 2;
+    var ny = (Math.random() * 2 - 1) * 16;
+    var scale = 1 - tries * 0.11;
+
+    troll.style.transform = 'translate(' + nx.toFixed(1) + 'px,' + ny.toFixed(1) + 'px) scale(' + scale.toFixed(2) + ')';
+
+    if (navigator.vibrate) { navigator.vibrate(12); }
+  }
+
+  function finishTroll() {
+    finished = true;
+    troll.textContent = 'Mejor confirma 👇';
+    troll.classList.add('done');
+    troll.style.transform = 'none';
+
+    confirmBtn.classList.remove('pulse');
+    void confirmBtn.offsetWidth;
+    confirmBtn.classList.add('pulse');
+
+    showToast('Karen cuenta contigo 🥲', 3200);
+
+    var box = confirmBtn.getBoundingClientRect();
+    if (box.top < 0 || box.bottom > window.innerHeight) {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  troll.addEventListener('click', function (e) {
+    // teclado: deja una salida honesta
+    if (e.detail === 0) {
+      goToWhatsApp('Hola 👋 No podré asistir al cumple de Karen. ¡Que lo disfruten! 🥂');
+      return;
+    }
+    e.preventDefault();
+    dodge();
+  });
+
+  troll.addEventListener('mouseenter', dodge);
+
+  troll.addEventListener('touchstart', function (e) {
+    e.preventDefault();
+    dodge();
+  }, { passive: false });
+
+  troll.addEventListener('pointerdown', function (e) {
+    if (e.pointerType === 'mouse') { return; }
+    dodge();
+  });
+
+  /* ---------------- calendario ---------------- */
   var ICS = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
@@ -444,7 +811,7 @@
     'END:VCALENDAR'
   ].join('\r\n');
 
-  document.getElementById('ics').addEventListener('click', function () {
+  $('ics').addEventListener('click', function () {
     var blob = new Blob([ICS], { type: 'text/calendar;charset=utf-8' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
@@ -457,42 +824,39 @@
     showToast('Evento listo para guardar');
   });
 
-  /* ---------- copiar enlace ---------- */
-  function copyLink() {
-    var link = location.href;
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(link).then(
-        function () { showToast('Enlace copiado'); },
-        function () { fallbackCopy(link); }
-      );
-    } else {
-      fallbackCopy(link);
-    }
-  }
-  function fallbackCopy(text) {
-    var ta = document.createElement('textarea');
-    ta.value = text;
-    ta.setAttribute('readonly', '');
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    try { document.execCommand('copy'); showToast('Enlace copiado'); }
-    catch (e) { showToast(text); }
-    document.body.removeChild(ta);
-  }
-  document.getElementById('share').addEventListener('click', function (e) {
-    e.preventDefault();
+  /* ---------------- compartir ---------------- */
+  $('share').addEventListener('click', function () {
+    var data = {
+      title: 'Cumpleaños de Karen Bravo',
+      text: 'Viernes 30 de octubre · 7:00 p. m. · Casa de Yamit',
+      url: location.href
+    };
     if (navigator.share) {
-      navigator.share({
-        title: 'Cumpleaños de Karen Bravo',
-        text: 'Viernes 30 de octubre, 7:00 p. m. · Casa de Yamit',
-        url: location.href
-      }).catch(function () {});
+      navigator.share(data).catch(function () {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(location.href).then(function () {
+        showToast('Enlace copiado');
+      }, function () { showToast(location.href, 5000); });
     } else {
-      copyLink();
+      showToast(location.href, 5000);
     }
   });
+
+  /* ---------------- teclado móvil ---------------- */
+  function lift() {
+    var vv = window.visualViewport;
+    if (!vv) { return; }
+    var hidden = window.innerHeight - vv.height - vv.offsetTop;
+    document.documentElement.style.setProperty('--lift', hidden > 90 ? hidden + 'px' : '0px');
+    document.body.classList.toggle('typing', hidden > 90);
+  }
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', lift);
+    window.visualViewport.addEventListener('scroll', lift);
+  }
+  who.addEventListener('focus', function () { document.body.classList.add('typing'); });
+  who.addEventListener('blur', function () { document.body.classList.remove('typing'); });
+
 })();
 </script>
 </body>
