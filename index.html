@@ -98,16 +98,17 @@
     pointer-events:none;
     background:
       linear-gradient(180deg,
-        rgba(17,6,15,.90) 0%,
-        rgba(17,6,15,.55) 14%,
-        rgba(23,10,19,.18) 32%,
-        rgba(23,10,19,0) 44%,
-        rgba(23,10,19,.30) 60%,
-        rgba(23,10,19,.80) 76%,
+        rgba(17,6,15,.97) 0%,
+        rgba(17,6,15,.90) 11%,
+        rgba(20,8,16,.66) 23%,
+        rgba(23,10,19,.30) 35%,
+        rgba(23,10,19,0) 47%,
+        rgba(23,10,19,.32) 60%,
+        rgba(23,10,19,.82) 76%,
         rgba(17,6,15,.97) 88%,
         #11060F 100%),
-      radial-gradient(130% 90% at 72% 26%, rgba(17,6,15,0) 26%, rgba(17,6,15,.42) 100%),
-      radial-gradient(90% 60% at 70% 22%, rgba(214,174,105,.16), rgba(214,174,105,0) 62%);
+      radial-gradient(130% 90% at 72% 30%, rgba(17,6,15,0) 24%, rgba(17,6,15,.46) 100%),
+      radial-gradient(90% 60% at 70% 20%, rgba(214,174,105,.16), rgba(214,174,105,0) 62%);
   }
 
   .grain{
@@ -222,18 +223,6 @@
     font-variant-numeric:tabular-nums;
   }
 
-  .note{
-    font-family:'Cormorant Garamond',Georgia,serif;
-    font-style:italic;
-    font-size:clamp(13px,1.7vh,15.5px);
-    line-height:1.35;
-    color:rgba(243,231,216,.58);
-    text-align:center;
-    margin-top:.85em;
-    padding-top:.85em;
-    border-top:1px solid rgba(214,174,105,.16);
-  }
-
   .deadline{
     font-family:'Montserrat',sans-serif;
     font-weight:300;
@@ -241,9 +230,21 @@
     letter-spacing:.2em;
     text-indent:.2em;
     text-transform:uppercase;
-    color:rgba(214,174,105,.85);
+    color:rgba(214,174,105,.9);
     text-align:center;
-    margin-top:.95em;
+    margin-top:.7em;
+  }
+
+  .note{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-style:italic;
+    font-size:clamp(13px,1.7vh,15.5px);
+    line-height:1.35;
+    color:rgba(243,231,216,.6);
+    text-align:center;
+    margin-top:.75em;
+    padding-top:.75em;
+    border-top:1px solid rgba(214,174,105,.16);
   }
 
   /* ---------------- formulario ---------------- */
@@ -259,6 +260,7 @@
     text-transform:uppercase;
     color:rgba(243,231,216,.55);
     margin-bottom:.55em;
+    text-align:center;
   }
 
   .field label em{
@@ -574,9 +576,9 @@
       <div class="countdown" id="countdown">faltan 4 días · 02 h · 09 m</div>
     </div>
 
-    <p class="note">Hay comida, bebida y brindis 🥂 Solo necesito saber cuántos son para que no falte nada.</p>
+    <p class="deadline">Confirma antes del miércoles 28</p>
 
-    <div class="deadline">Confirma antes del miércoles 28</div>
+    <p class="note">Hay comida, bebida y brindis 🥂 Solo necesito saber cuántos son para que no falte nada.</p>
 
     <div class="field">
       <label for="who">¿A nombre de quién?</label>
