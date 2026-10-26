@@ -702,7 +702,10 @@
   /* ---------------- confirmar ---------------- */
   function message() {
     var name = who.value.trim();
-    return 'Hola 👋 Soy ' + name + '.\n\n' +
+    var intro = /^familia\b/i.test(name)
+      ? 'Hola 👋 Soy de la ' + name.charAt(0).toLowerCase() + name.slice(1) + '.'
+      : 'Hola 👋 Soy ' + name + '.';
+    return intro + '\n\n' +
            '✅ Confirmo ' + total + (total === 1 ? ' persona' : ' personas') + ' para el cumple de Karen\n' +
            '🎂 Viernes 30 de octubre · 7:00 p. m.\n' +
            '📍 Casa de Yamit\n\n' +
