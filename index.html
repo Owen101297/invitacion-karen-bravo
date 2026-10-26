@@ -108,6 +108,7 @@
         rgba(17,6,15,.97) 88%,
         #11060F 100%),
       radial-gradient(130% 90% at 72% 30%, rgba(17,6,15,0) 24%, rgba(17,6,15,.46) 100%),
+      radial-gradient(64% 24% at 50% 10%, rgba(17,6,15,.66), rgba(17,6,15,0) 74%),
       radial-gradient(90% 60% at 70% 20%, rgba(214,174,105,.16), rgba(214,174,105,0) 62%);
   }
 
@@ -489,10 +490,13 @@
     :root{--pad:10px}
     .note,.countdown,.rule{display:none}
     .name{font-size:clamp(30px,8.2vh,46px)}
-    .sheet{max-width:440px}
+    .sheet{max-width:440px;padding:10px 14px;border-radius:16px}
     .where{font-size:15px}
-    .cta{height:42px;margin-top:10px}
+    .field{margin-top:8px}
+    .cta{height:40px;margin-top:8px}
+    .foot{margin-top:8px}
     .troll{font-size:13px}
+    .deadline{margin-top:6px}
   }
 
   /* ---------------- escritorio ---------------- */
@@ -501,7 +505,7 @@
 
     .stage{
       grid-template-columns:minmax(300px,520px) minmax(0,1fr);
-      grid-template-rows:auto 1fr;
+      grid-template-rows:auto auto;
       align-content:center;
       gap:0 clamp(20px,3vw,52px);
       padding:clamp(26px,4vh,50px) clamp(36px,5vw,72px);
