@@ -39,10 +39,16 @@ GitHub Pages publica los cambios en 1-2 minutos.
 ## Puntos finos
 
 - El tamaño del texto se adapta a la altura de la pantalla (`clamp` + `svh`), así que
-  nunca aparece scroll.
+  nunca aparece scroll. Verificado en 11 tamaños, de 320×568 a 1440×900.
 - En pantallas bajas (menos de 720 px) se oculta la nota de "hay comida y brindis",
   y bajo 620 px también la cuenta regresiva.
-- Al abrir el teclado en el celular, la tarjeta se sube sola (`visualViewport`).
+- **Al abrir el teclado**: el escenario se ajusta al área realmente visible
+  (`visualViewport`), la foto se atenúa y la tarjeta se compacta y se centra sola.
+  El nombre, el contador y el botón quedan siempre a la vista.
+- El campo de nombre es una caja visible con el texto *"Escribe tu nombre o tu
+  familia"* en cursiva: no hay forma de no ver qué va a escribir.
 - El nombre y el número quedan guardados en el navegador del invitado.
 - Si alguien usa teclado y activa "No podré asistir", lo deja declinar de verdad
   por WhatsApp: es la salida honesta del chiste.
+- La jerarquía de la tarjeta es: fecha y lugar → nota → separador
+  "Confirma tu asistencia" → nombre → cuántos → botón → fecha límite.
