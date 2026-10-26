@@ -30,7 +30,6 @@
     --gold-2:#E4C48A;
     --ink:#170A13;
     --pad: clamp(16px, 2.6vh, 26px);
-    --lift: 0px;
   }
 
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -51,7 +50,10 @@
   /* ---------------- escenario ---------------- */
   .stage{
     position:fixed;
-    inset:0;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
     display:grid;
     grid-template-rows:auto 1fr auto;
     padding:
@@ -59,14 +61,8 @@
       calc(var(--pad) + env(safe-area-inset-right))
       calc(var(--pad) + env(safe-area-inset-bottom))
       calc(var(--pad) + env(safe-area-inset-left));
-    transition:transform .18s ease;
+    transition:height .16s ease, top .16s ease;
   }
-
-  /* teclado abierto: subimos todo para que el campo quede visible */
-  body.typing .stage{transform:translateY(calc(-1 * var(--lift, 0px)))}
-  body.typing .note,
-  body.typing .deadline,
-  body.typing .countdown{display:none}
 
   /* ---------------- foto ---------------- */
   .photo{
@@ -74,6 +70,7 @@
     inset:0;
     z-index:0;
     overflow:hidden;
+    transition:opacity .25s ease;
   }
 
   .photo img{
@@ -96,6 +93,7 @@
     inset:0;
     z-index:1;
     pointer-events:none;
+    transition:opacity .25s ease, background .25s ease;
     background:
       linear-gradient(180deg,
         rgba(17,6,15,.97) 0%,
@@ -108,7 +106,7 @@
         rgba(17,6,15,.97) 88%,
         #11060F 100%),
       radial-gradient(130% 90% at 72% 30%, rgba(17,6,15,0) 24%, rgba(17,6,15,.46) 100%),
-      radial-gradient(64% 24% at 50% 10%, rgba(17,6,15,.66), rgba(17,6,15,0) 74%),
+      radial-gradient(64% 24% at 50% 9%, rgba(17,6,15,.68), rgba(17,6,15,0) 76%),
       radial-gradient(90% 60% at 70% 20%, rgba(214,174,105,.16), rgba(214,174,105,0) 62%);
   }
 
@@ -127,6 +125,7 @@
     position:relative;
     z-index:3;
     text-align:center;
+    padding-top:.35em;
     animation:rise .9s cubic-bezier(.22,.8,.3,1) both;
   }
 
@@ -137,22 +136,23 @@
     letter-spacing:.52em;
     text-indent:.52em;
     text-transform:uppercase;
-    color:rgba(243,231,216,.72);
-    text-shadow:0 1px 12px rgba(17,6,15,.8);
+    color:rgba(243,231,216,.75);
+    text-shadow:0 1px 12px rgba(17,6,15,.9);
   }
 
   .name{
     font-family:'Great Vibes','Segoe Script',cursive;
     font-weight:400;
-    font-size:clamp(44px,9.6vh,86px);
-    line-height:.95;
-    margin-top:.18em;
-    padding:0 .1em .1em;
+    font-size:clamp(42px,9.2vh,84px);
+    line-height:1.04;
+    margin-top:.16em;
+    padding:.16em .12em .18em;
+    overflow:visible;
     background:linear-gradient(180deg,#FBEED0 0%,#E4C48A 42%,#BE9350 100%);
     -webkit-background-clip:text;
     background-clip:text;
     color:transparent;
-    filter:drop-shadow(0 4px 22px rgba(17,6,15,.75));
+    filter:drop-shadow(0 4px 22px rgba(17,6,15,.8));
   }
 
   .rule{
@@ -160,7 +160,7 @@
     align-items:center;
     justify-content:center;
     gap:12px;
-    margin-top:clamp(6px,1.2vh,14px);
+    margin-top:clamp(4px,1vh,12px);
   }
   .rule span{display:block;width:clamp(38px,9vw,72px);height:1px;background:linear-gradient(90deg,transparent,rgba(214,174,105,.8),transparent)}
   .rule i{display:block;width:6px;height:6px;transform:rotate(45deg);border:1px solid rgba(214,174,105,.9)}
@@ -172,10 +172,10 @@
     width:100%;
     max-width:520px;
     margin:0 auto;
-    padding:calc(var(--pad) * .92) calc(var(--pad) * .9);
-    border:1px solid rgba(214,174,105,.28);
+    padding:calc(var(--pad) * .9) calc(var(--pad) * .9);
+    border:1px solid rgba(214,174,105,.3);
     border-radius:20px;
-    background:linear-gradient(165deg, rgba(63,27,44,.60) 0%, rgba(30,13,24,.72) 55%, rgba(20,8,17,.82) 100%);
+    background:linear-gradient(165deg, rgba(63,27,44,.62) 0%, rgba(30,13,24,.74) 55%, rgba(20,8,17,.84) 100%);
     box-shadow:0 26px 70px -22px rgba(0,0,0,.85), inset 0 1px 0 rgba(255,255,255,.07);
     -webkit-backdrop-filter:blur(16px) saturate(125%);
     backdrop-filter:blur(16px) saturate(125%);
@@ -192,6 +192,20 @@
     border:1px solid rgba(214,174,105,.75);
   }
 
+  /* título de contexto (solo al escribir) */
+  .mini-title{
+    display:none;
+    text-align:center;
+    font-family:'Montserrat',sans-serif;
+    font-weight:300;
+    font-size:clamp(9px,1.1vh,11px);
+    letter-spacing:.34em;
+    text-indent:.34em;
+    text-transform:uppercase;
+    color:rgba(214,174,105,.9);
+    margin-bottom:.9em;
+  }
+
   .when{text-align:center}
 
   .date{
@@ -206,10 +220,10 @@
 
   .where{
     font-family:'Cormorant Garamond',Georgia,serif;
-    font-size:clamp(16px,2.4vh,21px);
+    font-size:clamp(17px,2.5vh,22px);
     letter-spacing:.04em;
-    color:rgba(243,231,216,.94);
-    margin-top:.22em;
+    color:rgba(243,231,216,.95);
+    margin-top:.2em;
   }
 
   .countdown{
@@ -219,125 +233,163 @@
     letter-spacing:.22em;
     text-indent:.22em;
     text-transform:uppercase;
-    color:rgba(243,231,216,.42);
-    margin-top:.75em;
+    color:rgba(243,231,216,.45);
+    margin-top:.8em;
     font-variant-numeric:tabular-nums;
-  }
-
-  .deadline{
-    font-family:'Montserrat',sans-serif;
-    font-weight:300;
-    font-size:clamp(8.5px,.95vh,10px);
-    letter-spacing:.2em;
-    text-indent:.2em;
-    text-transform:uppercase;
-    color:rgba(214,174,105,.9);
-    text-align:center;
-    margin-top:.7em;
   }
 
   .note{
     font-family:'Cormorant Garamond',Georgia,serif;
     font-style:italic;
-    font-size:clamp(13px,1.7vh,15.5px);
+    font-size:clamp(13.5px,1.8vh,16px);
     line-height:1.35;
-    color:rgba(243,231,216,.6);
+    color:rgba(243,231,216,.66);
     text-align:center;
-    margin-top:.75em;
-    padding-top:.75em;
+    margin-top:.9em;
+    padding-top:.9em;
     border-top:1px solid rgba(214,174,105,.16);
   }
 
-  /* ---------------- formulario ---------------- */
-  .field{ margin-top:calc(var(--pad) * .55) }
-
-  .field label{
-    display:block;
+  /* separador con rótulo */
+  .form-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-top:calc(var(--pad) * .7);
+  }
+  .form-head::before,
+  .form-head::after{
+    content:"";
+    height:1px;
+    flex:1;
+    background:linear-gradient(90deg,transparent,rgba(214,174,105,.34));
+  }
+  .form-head::after{background:linear-gradient(90deg,rgba(214,174,105,.34),transparent)}
+  .form-head span{
     font-family:'Montserrat',sans-serif;
     font-weight:300;
     font-size:clamp(8.5px,.95vh,10px);
     letter-spacing:.24em;
     text-indent:.24em;
     text-transform:uppercase;
-    color:rgba(243,231,216,.55);
-    margin-bottom:.55em;
+    color:rgba(214,174,105,.92);
+    white-space:nowrap;
+  }
+
+  /* ---------------- formulario ---------------- */
+  .field{margin-top:calc(var(--pad) * .6)}
+
+  .field label{
+    display:block;
+    font-family:'Montserrat',sans-serif;
+    font-weight:400;
+    font-size:clamp(9.5px,1.05vh,11px);
+    letter-spacing:.2em;
+    text-indent:.2em;
+    text-transform:uppercase;
+    color:rgba(243,231,216,.78);
+    margin-bottom:.6em;
     text-align:center;
   }
 
-  .field label em{
-    font-style:normal;
-    letter-spacing:.06em;
-    text-transform:none;
-    color:rgba(243,231,216,.35);
-  }
+  .input-wrap{position:relative}
 
   #who{
     width:100%;
-    height:clamp(38px,5.2vh,46px);
-    padding:0 2px;
-    background:transparent;
-    border:0;
-    border-bottom:1px solid rgba(214,174,105,.38);
-    border-radius:0;
+    height:clamp(42px,5.6vh,50px);
+    padding:0 42px;
+    background:rgba(214,174,105,.07);
+    border:1px solid rgba(214,174,105,.38);
+    border-radius:12px;
     color:var(--cream);
     font-family:'Cormorant Garamond',Georgia,serif;
     font-size:clamp(17px,2.3vh,20px);
     text-align:center;
     outline:none;
-    transition:border-color .2s ease, background .2s ease;
+    transition:border-color .2s ease, background .2s ease, box-shadow .2s ease;
     -webkit-appearance:none;
     appearance:none;
   }
-  #who::placeholder{color:rgba(243,231,216,.32);font-style:italic}
-  #who:focus{border-bottom-color:rgba(214,174,105,.9);background:rgba(214,174,105,.05)}
+  #who::placeholder{
+    color:rgba(243,231,216,.58);
+    font-style:italic;
+    opacity:1;
+  }
+  #who:focus{
+    border-color:rgba(214,174,105,.95);
+    background:rgba(214,174,105,.12);
+    box-shadow:0 0 0 3px rgba(214,174,105,.14);
+  }
+  #who.err{border-color:rgba(224,130,130,.9)}
+
+  .pen{
+    position:absolute;
+    right:13px; top:50%;
+    transform:translateY(-50%);
+    width:17px; height:17px;
+    color:rgba(214,174,105,.75);
+    pointer-events:none;
+  }
 
   .counter-row{
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:12px;
-    margin-top:calc(var(--pad) * .5);
+    margin-top:calc(var(--pad) * .62);
+    padding:0 2px;
   }
 
   .counter-label{
     font-family:'Montserrat',sans-serif;
-    font-weight:300;
-    font-size:clamp(8.5px,.95vh,10px);
+    font-weight:400;
+    font-size:clamp(9.5px,1.05vh,11px);
     letter-spacing:.2em;
     text-indent:.2em;
     text-transform:uppercase;
-    color:rgba(243,231,216,.55);
+    color:rgba(243,231,216,.78);
   }
-  .counter-label em{display:block;font-style:normal;letter-spacing:.06em;text-transform:none;color:rgba(243,231,216,.32);margin-top:.4em}
+  .counter-label em{
+    display:block;
+    font-style:normal;
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:clamp(12px,1.6vh,14px);
+    letter-spacing:.02em;
+    text-indent:0;
+    text-transform:none;
+    color:rgba(243,231,216,.5);
+    margin-top:.25em;
+  }
 
-  .stepper{display:flex;align-items:center;gap:10px}
+  .stepper{display:flex;align-items:center;gap:12px}
 
   .step{
-    width:clamp(30px,4.2vh,36px);
-    height:clamp(30px,4.2vh,36px);
+    width:clamp(32px,4.4vh,38px);
+    height:clamp(32px,4.4vh,38px);
     display:grid;
     place-items:center;
     border-radius:50%;
-    border:1px solid rgba(214,174,105,.42);
-    background:rgba(214,174,105,.06);
+    border:1px solid rgba(214,174,105,.5);
+    background:rgba(214,174,105,.1);
     color:var(--gold-2);
     font-family:'Montserrat',sans-serif;
-    font-size:16px;
+    font-size:17px;
     line-height:1;
     cursor:pointer;
     -webkit-tap-highlight-color:transparent;
-    transition:background .16s ease,border-color .16s ease,opacity .16s ease;
+    transition:background .16s ease,border-color .16s ease,opacity .16s ease,transform .12s ease;
   }
-  .step:hover{background:rgba(214,174,105,.16);border-color:rgba(214,174,105,.7)}
-  .step:disabled{opacity:.28;cursor:default}
+  .step:hover{background:rgba(214,174,105,.22);border-color:rgba(214,174,105,.8)}
+  .step:active{transform:scale(.92)}
+  .step:disabled{opacity:.3;cursor:default}
 
   #total{
-    min-width:2.2ch;
+    min-width:2ch;
     text-align:center;
     font-family:'Cormorant Garamond',Georgia,serif;
-    font-size:clamp(24px,3.4vh,30px);
+    font-size:clamp(26px,3.6vh,32px);
     line-height:1;
-    color:var(--cream);
+    color:var(--gold-2);
     font-variant-numeric:tabular-nums;
   }
 
@@ -348,8 +400,8 @@
     justify-content:center;
     gap:10px;
     width:100%;
-    height:clamp(48px,6.6vh,58px);
-    margin-top:calc(var(--pad) * .8);
+    height:clamp(50px,6.8vh,58px);
+    margin-top:calc(var(--pad) * .85);
     border:0;
     border-radius:999px;
     background:linear-gradient(135deg,#F8E8BE 0%,#DCB779 46%,#C1934A 100%);
@@ -377,6 +429,18 @@
     100%{box-shadow:0 14px 32px -12px rgba(214,174,105,.6), 0 0 0 0 rgba(232,201,140,0), inset 0 1px 0 rgba(255,255,255,.55)}
   }
 
+  .deadline{
+    font-family:'Montserrat',sans-serif;
+    font-weight:300;
+    font-size:clamp(8.5px,.95vh,10px);
+    letter-spacing:.18em;
+    text-indent:.18em;
+    text-transform:uppercase;
+    color:rgba(214,174,105,.8);
+    text-align:center;
+    margin-top:.85em;
+  }
+
   /* ---------------- pie de la tarjeta ---------------- */
   .foot{
     position:relative;
@@ -384,7 +448,7 @@
     align-items:center;
     justify-content:center;
     min-height:26px;
-    margin-top:calc(var(--pad) * .62);
+    margin-top:calc(var(--pad) * .55);
   }
 
   .troll{
@@ -393,7 +457,7 @@
     background:none;
     border:0;
     border-bottom:1px solid rgba(214,174,105,.3);
-    color:rgba(243,231,216,.55);
+    color:rgba(243,231,216,.58);
     font-family:'Cormorant Garamond',Georgia,serif;
     font-style:italic;
     font-size:clamp(14px,1.85vh,16.5px);
@@ -404,10 +468,10 @@
     touch-action:none;
     white-space:nowrap;
   }
-  .troll:hover{color:rgba(243,231,216,.78)}
+  .troll:hover{color:rgba(243,231,216,.8)}
   .troll.done{
     border-bottom-color:transparent;
-    color:rgba(214,174,105,.92);
+    color:rgba(214,174,105,.95);
     font-style:normal;
     cursor:default;
     pointer-events:none;
@@ -472,7 +536,26 @@
     .head,.sheet{animation:none}
     .cta.pulse{animation:none}
     .troll{transition:none}
+    .stage{transition:none}
   }
+
+  /* =========================================================
+     TECLADO ABIERTO: la tarjeta se compacta y se centra
+     ========================================================= */
+  body.typing .stage{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  body.typing .head{display:none}
+  body.typing .stage > div:empty{display:none}
+  body.typing .photo{opacity:.16}
+  body.typing .veil{background:linear-gradient(180deg,rgba(17,6,15,.93),rgba(17,6,15,.97))}
+  body.typing .note,
+  body.typing .countdown,
+  body.typing .form-head{display:none}
+  body.typing .mini-title{display:block}
+  body.typing .sheet{margin:0;max-width:440px}
 
   /* ---------------- pantallas bajas ---------------- */
   @media (max-height:720px){
@@ -576,22 +659,29 @@
 
   <section class="sheet" id="sheet">
 
+    <div class="mini-title">Cumpleaños de Karen Bravo</div>
+
     <div class="when">
       <div class="date">Viernes 30 de octubre</div>
       <div class="where">7:00 p. m. · Casa de Yamit</div>
       <div class="countdown" id="countdown">faltan 4 días · 02 h · 09 m</div>
     </div>
 
-    <p class="deadline">Confirma antes del miércoles 28</p>
-
     <p class="note">Hay comida, bebida y brindis 🥂 Solo necesito saber cuántos son para que no falte nada.</p>
+
+    <div class="form-head"><span>Confirma tu asistencia</span></div>
 
     <div class="field">
       <label for="who">¿A nombre de quién?</label>
-      <input id="who" type="text" name="who" maxlength="42"
-             placeholder="Tu nombre o tu familia"
-             autocomplete="name" enterkeyhint="done"
-             spellcheck="false" aria-describedby="whoHelp">
+      <div class="input-wrap">
+        <input id="who" type="text" name="who" maxlength="42"
+               placeholder="Escribe tu nombre o tu familia"
+               autocomplete="name" enterkeyhint="done"
+               spellcheck="false" aria-describedby="whoHelp">
+        <svg class="pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M16.5 3.5l4 4L7 21H3v-4z"/><path d="M14 6l4 4"/>
+        </svg>
+      </div>
     </div>
 
     <div class="counter-row">
@@ -609,6 +699,8 @@
       </svg>
       Confirmar por WhatsApp
     </button>
+
+    <p class="deadline">Antes del miércoles 28 porfa 🥺</p>
 
     <div class="foot">
       <button class="troll" id="decline" type="button">No podré asistir</button>
@@ -643,6 +735,7 @@
   var NAME_KEY = 'kb-who';
 
   var $ = function (id) { return document.getElementById(id); };
+  var stage = $('stage');
   var sheet = $('sheet');
   var who = $('who');
   var totalEl = $('total');
@@ -686,6 +779,7 @@
   plus.addEventListener('click', function () { if (total < 15) { total++; renderTotal(); } });
 
   who.addEventListener('input', function () {
+    who.classList.remove('err');
     try { localStorage.setItem(NAME_KEY, who.value.trim()); } catch (e) {}
   });
 
@@ -719,9 +813,8 @@
   confirmBtn.addEventListener('click', function () {
     var name = who.value.trim();
     if (name.length < 2) {
+      who.classList.add('err');
       who.focus();
-      who.style.borderBottomColor = '#E0A0A0';
-      setTimeout(function () { who.style.borderBottomColor = ''; }, 900);
       showToast('Escribe tu nombre para confirmar');
       return;
     }
@@ -770,11 +863,6 @@
     confirmBtn.classList.add('pulse');
 
     showToast('Karen cuenta contigo 🥲', 3200);
-
-    var box = confirmBtn.getBoundingClientRect();
-    if (box.top < 0 || box.bottom > window.innerHeight) {
-      window.scrollTo(0, 0);
-    }
   }
 
   troll.addEventListener('click', function (e) {
@@ -853,20 +941,43 @@
     }
   });
 
-  /* ---------------- teclado móvil ---------------- */
-  function lift() {
+  /* ---------------- teclado móvil ----------------
+     Ajustamos el escenario al área realmente visible para que
+     el teclado no empuje ni corte nada.                                */
+  function fit() {
     var vv = window.visualViewport;
     if (!vv) { return; }
-    var hidden = window.innerHeight - vv.height - vv.offsetTop;
-    document.documentElement.style.setProperty('--lift', hidden > 90 ? hidden + 'px' : '0px');
-    document.body.classList.toggle('typing', hidden > 90);
+    var h = Math.round(vv.height);
+    var top = Math.round(vv.offsetTop);
+    var hidden = Math.max(0, window.innerHeight - h - top);
+    var typing = hidden > 90;
+
+    if (typing) {
+      stage.style.height = h + 'px';
+      stage.style.top = top + 'px';
+    } else {
+      stage.style.height = '';
+      stage.style.top = '';
+    }
+    document.body.classList.toggle('typing', typing);
   }
+
   if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', lift);
-    window.visualViewport.addEventListener('scroll', lift);
+    window.visualViewport.addEventListener('resize', fit);
+    window.visualViewport.addEventListener('scroll', fit);
   }
-  who.addEventListener('focus', function () { document.body.classList.add('typing'); });
-  who.addEventListener('blur', function () { document.body.classList.remove('typing'); });
+  window.addEventListener('orientationchange', function () { setTimeout(fit, 250); });
+
+  who.addEventListener('focus', function () {
+    document.body.classList.add('typing');
+    fit();
+  });
+  who.addEventListener('blur', function () {
+    setTimeout(function () {
+      document.body.classList.remove('typing');
+      fit();
+    }, 120);
+  });
 
 })();
 </script>
