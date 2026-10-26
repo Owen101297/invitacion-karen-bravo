@@ -422,11 +422,46 @@
   .cta:active{transform:scale(.99)}
   .cta svg{width:19px;height:19px;flex:none}
 
-  .cta.pulse{animation:pulse 1.15s ease-out 2}
+  .cta.pulse{animation:pulse 1s ease-out 3}
   @keyframes pulse{
-    0%{box-shadow:0 14px 32px -12px rgba(214,174,105,.6), 0 0 0 0 rgba(232,201,140,.55), inset 0 1px 0 rgba(255,255,255,.55)}
-    70%{box-shadow:0 14px 32px -12px rgba(214,174,105,.6), 0 0 0 16px rgba(232,201,140,0), inset 0 1px 0 rgba(255,255,255,.55)}
-    100%{box-shadow:0 14px 32px -12px rgba(214,174,105,.6), 0 0 0 0 rgba(232,201,140,0), inset 0 1px 0 rgba(255,255,255,.55)}
+    0%{transform:scale(1);box-shadow:0 14px 32px -12px rgba(214,174,105,.6), 0 0 0 0 rgba(232,201,140,.65), inset 0 1px 0 rgba(255,255,255,.55)}
+    45%{transform:scale(1.035);box-shadow:0 16px 38px -12px rgba(214,174,105,.8), 0 0 0 12px rgba(232,201,140,.18), inset 0 1px 0 rgba(255,255,255,.6)}
+    100%{transform:scale(1);box-shadow:0 14px 32px -12px rgba(214,174,105,.6), 0 0 0 0 rgba(232,201,140,0), inset 0 1px 0 rgba(255,255,255,.55)}
+  }
+
+  /* aviso que empuja hacia el botón de confirmar */
+  .nudge{
+    display:none;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    margin-top:.8em;
+    padding:11px 18px;
+    border-radius:999px;
+    background:linear-gradient(135deg,#FBEBD2 0%,#E4C48A 58%,#D2A85F 100%);
+    color:#2A1020;
+    font-family:'Montserrat',sans-serif;
+    font-size:clamp(10px,1.25vh,11.5px);
+    font-weight:500;
+    letter-spacing:.1em;
+    text-indent:.1em;
+    text-transform:uppercase;
+    text-align:center;
+    white-space:nowrap;
+    box-shadow:0 14px 34px -10px rgba(214,174,105,.8), 0 0 0 4px rgba(214,174,105,.16);
+    pointer-events:none;
+  }
+  .nudge.show{display:flex;animation:nudgeIn .6s cubic-bezier(.2,1.6,.35,1) both}
+  @keyframes nudgeIn{
+    0%{opacity:0;transform:scale(.72)}
+    55%{opacity:1;transform:scale(1.07)}
+    100%{opacity:1;transform:scale(1)}
+  }
+  .nudge .emo{font-size:1.25em;line-height:1;animation:pointUp .9s ease-in-out infinite}
+  @keyframes pointUp{
+    0%,100%{transform:translateY(3px)}
+    50%{transform:translateY(-4px)}
   }
 
   .deadline{
@@ -471,10 +506,21 @@
   .troll:hover{color:rgba(243,231,216,.8)}
   .troll.done{
     border-bottom-color:transparent;
-    color:rgba(214,174,105,.95);
+    color:rgba(232,201,140,1);
     font-style:normal;
+    font-weight:500;
+    font-family:'Montserrat',sans-serif;
+    font-size:clamp(10px,1.25vh,11.5px);
+    letter-spacing:.14em;
+    text-indent:.14em;
+    text-transform:uppercase;
     cursor:default;
     pointer-events:none;
+    animation:bob 1.5s ease-in-out infinite;
+  }
+  @keyframes bob{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-4px)}
   }
 
   .icons{
@@ -700,7 +746,13 @@
       Confirmar por WhatsApp
     </button>
 
-    <p class="deadline">Antes del miércoles 28 porfa 🥺</p>
+    <p class="deadline" id="deadline">Antes del miércoles 28 porfa 🥺</p>
+
+    <div class="nudge" id="nudge" role="status" aria-live="polite">
+      <span class="emo">🥲</span>
+      <span>Karen cuenta contigo</span>
+      <span class="emo">👆</span>
+    </div>
 
     <div class="foot">
       <button class="troll" id="decline" type="button">No podré asistir</button>
@@ -818,6 +870,10 @@
       showToast('Escribe tu nombre para confirmar');
       return;
     }
+    // ya confirmó: se aparta el aviso
+    $('nudge').classList.remove('show');
+    $('deadline').style.display = '';
+    confirmBtn.classList.remove('pulse');
     goToWhatsApp(message());
   });
 
@@ -854,15 +910,17 @@
 
   function finishTroll() {
     finished = true;
-    troll.textContent = 'Mejor confirma 👇';
+    troll.textContent = 'Mejor confirma 👆';
     troll.classList.add('done');
     troll.style.transform = 'none';
+
+    // el aviso le dice a dónde ir, y el botón se enciende
+    $('deadline').style.display = 'none';
+    $('nudge').classList.add('show');
 
     confirmBtn.classList.remove('pulse');
     void confirmBtn.offsetWidth;
     confirmBtn.classList.add('pulse');
-
-    showToast('Karen cuenta contigo 🥲', 3200);
   }
 
   troll.addEventListener('click', function (e) {
