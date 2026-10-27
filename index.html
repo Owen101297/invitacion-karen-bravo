@@ -881,9 +881,7 @@
       // sin dvh lo medimos nosotros
       st.style.minHeight = supportsDvh ? '' : h + 'px';
     }
-  }
-
-  if (window.visualViewport) {
+  }  if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', fit);
     window.visualViewport.addEventListener('scroll', fit);
   }
