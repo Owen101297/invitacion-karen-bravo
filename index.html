@@ -523,6 +523,30 @@
     .deadline{margin-top:4px}
     .photo img{object-position:80% 22%}
   }
+
+  /* =========================================================
+     HORIZONTAL (al final: tiene prioridad sobre escritorio)
+     ========================================================= */
+  @media (orientation:landscape) and (max-height:520px){
+    :root{--pad:10px}
+    .stage{padding:10px 16px}
+    .over-note,.countdown,.rule{display:none}
+    .head{text-align:left}
+    .name{font-size:clamp(26px,7vh,40px);padding:.1em .1em .12em}
+    .sheet{max-width:430px;padding:9px 14px;border-radius:16px;margin:auto auto 0 0}
+    .where{font-size:15px}
+    .field{margin-top:6px}
+    #who{height:36px;font-size:16px}
+    .counter{margin-top:6px}
+    .count b{font-size:24px}
+    .count small{font-size:7.5px;margin-top:2px}
+    .step{width:30px;height:30px;font-size:15px}
+    .cta{height:38px;margin-top:6px}
+    .foot{margin-top:6px}
+    .troll{font-size:13px}
+    .deadline{margin-top:4px}
+    .photo img{object-position:80% 22%}
+  }
 </style>
 </head>
 <body>
