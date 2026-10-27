@@ -413,6 +413,39 @@
   }
 
   /* =========================================================
+  /* =========================================================
+     OJITO: ver solo la foto unos segundos
+     ========================================================= */
+  .eye{
+    align-self:center;margin-bottom:10px;
+    width:36px;height:36px;border-radius:50%;
+    border:1px solid rgba(214,174,105,.42);
+    background:rgba(23,10,19,.5);color:rgba(214,174,105,.92);
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    display:grid;place-items:center;cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    transition:border-color .16s ease,background .16s ease,transform .12s ease;
+  }
+  .eye:hover{border-color:rgba(214,174,105,.8);background:rgba(214,174,105,.16);transform:scale(1.06)}
+  .eye svg{width:17px;height:17px}
+  .eye:active{transform:scale(.94)}
+
+  body.solo .head,
+  body.solo .over-note,
+  body.solo .sheet,
+  body.solo .eye{display:none}
+  body.solo .veil{background:linear-gradient(180deg, rgba(17,6,15,.14) 0%, rgba(17,6,15,.06) 40%, rgba(17,6,15,.16) 100%)}
+  body.solo .solo-hint{display:grid}
+
+  .solo-hint{
+    position:fixed;top:calc(14px + env(safe-area-inset-top));right:14px;
+    z-index:40;width:34px;height:34px;border-radius:50%;
+    display:none;place-items:center;
+    border:1px solid rgba(214,174,105,.4);background:rgba(23,10,19,.55);
+    color:var(--gold-2);font-family:'Montserrat',sans-serif;font-size:12px;
+    font-variant-numeric:tabular-nums;
+  }
+
      TECLADO ABIERTO: solo el formulario, centrado en lo visible
      ========================================================= */
   body.typing .stage{padding-bottom:calc(var(--pad) + env(safe-area-inset-bottom))}
