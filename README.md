@@ -10,7 +10,8 @@ de vidrio abajo con la fecha, el formulario y el botón de WhatsApp.
 ## Cómo funciona la confirmación
 
 1. El invitado escribe su nombre o el de su familia.
-2. Elige cuántas personas vienen (incluyéndose).
+2. Elige cuántas personas vienen (incluyéndose). Si no quiere decir, lo deja en **0**
+   y el mensaje sale como *"Me apunto al cumpleaños de Karen"*.
 3. Toca **Confirmar por WhatsApp** → se abre WhatsApp con el mensaje ya escrito
    y completo hacia el 313 633 2887.
 
@@ -39,14 +40,20 @@ GitHub Pages publica los cambios en 1-2 minutos.
 ## Puntos finos
 
 - El tamaño del texto se adapta a la altura de la pantalla (`clamp` + `svh`), así que
-  nunca aparece scroll. Verificado en 11 tamaños, de 320×568 a 1440×900.
+  nunca aparece scroll. Verificado en 13 tamaños, de 320×568 a 1440×900, y también
+  con el aviso del botón escurridizo visible (el peor caso).
+- **La barra del navegador**: el escenario usa `100dvh` y además se mide en vivo con
+  `visualViewport`, así que el contenido nunca queda pegado al link del navegador
+  (Brave, Chrome o Safari) ni debajo de la barra de direcciones.
 - En pantallas bajas (menos de 720 px) se oculta la nota de "hay comida y brindis",
   y bajo 620 px también la cuenta regresiva.
-- **Al abrir el teclado**: el escenario se ajusta al área realmente visible
-  (`visualViewport`), la foto se atenúa y la tarjeta se compacta y se centra sola.
-  El nombre, el contador y el botón quedan siempre a la vista.
+- **Al abrir el teclado**: el escenario se ajusta al área realmente visible, la foto
+  se atenúa y la tarjeta se compacta y se centra sola. El nombre, el contador y el
+  botón quedan siempre a la vista.
 - El campo de nombre es una caja visible con el texto *"Escribe tu nombre o tu
   familia"* en cursiva: no hay forma de no ver qué va a escribir.
+- El contador arranca en **0 / sin especificar** y el número va en grande, siempre
+  visible. En celular la etiqueta y los botones van apilados.
 - El nombre y el número quedan guardados en el navegador del invitado.
 - Si alguien usa teclado y activa "No podré asistir", lo deja declinar de verdad
   por WhatsApp: es la salida honesta del chiste.
