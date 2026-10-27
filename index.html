@@ -28,7 +28,6 @@
     --cream:#F3E7D8;
     --gold:#D6AE69;
     --gold-2:#E4C48A;
-    --ink:#170A13;
     --pad: clamp(14px, 2.2vh, 22px);
   }
 
@@ -37,17 +36,14 @@
   html{min-height:100%;background:#11060F;-webkit-text-size-adjust:100%}
 
   body{
-    min-height:100%;
-    overflow-x:hidden;
-    color:var(--cream);
+    min-height:100%;overflow-x:hidden;color:var(--cream);
     font-family:'Cormorant Garamond',Georgia,serif;
     -webkit-font-smoothing:antialiased;
   }
 
   /* =========================================================
      ESCENARIO · flujo normal: la barra del navegador (arriba o
-     abajo) nunca tapa el contenido, porque el documento ocupa
-     el área visible.
+     abajo) nunca tapa el contenido.
      ========================================================= */
   .stage{
     position:relative;
@@ -62,15 +58,11 @@
       calc(var(--pad) + env(safe-area-inset-left));
   }
 
-  /* ---------------- foto de fondo ---------------- */
+  /* foto de fondo */
   .photo{position:fixed;inset:0;z-index:0;overflow:hidden}
-
   .photo img{
-    width:100%;height:100%;
-    object-fit:cover;
-    object-position:64% 26%;
-    display:block;
-    animation:drift 26s ease-in-out infinite alternate;
+    width:100%;height:100%;object-fit:cover;object-position:64% 26%;
+    display:block;animation:drift 26s ease-in-out infinite alternate;
   }
   @keyframes drift{
     from{transform:scale(1.02) translate3d(0,0,0)}
@@ -86,13 +78,13 @@
         rgba(20,8,16,.34) 21%,
         rgba(23,10,19,.10) 32%,
         rgba(23,10,19,0) 44%,
-        rgba(23,10,19,.06) 58%,
-        rgba(23,10,19,.44) 74%,
-        rgba(17,6,15,.90) 88%,
+        rgba(23,10,19,.12) 58%,
+        rgba(23,10,19,.60) 74%,
+        rgba(17,6,15,.94) 88%,
         #11060F 100%),
       radial-gradient(130% 90% at 72% 30%, rgba(17,6,15,0) 30%, rgba(17,6,15,.26) 100%),
       radial-gradient(70% 22% at 50% 8%, rgba(17,6,15,.55), rgba(17,6,15,0) 78%),
-      radial-gradient(90% 60% at 70% 20%, rgba(214,174,105,.14), rgba(214,174,105,0) 62%);
+      radial-gradient(90% 60% at 70% 20%, rgba(214,174,105,.16), rgba(214,174,105,0) 62%);
   }
 
   .grain{
@@ -100,22 +92,17 @@
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  /* =========================================================
-     1 · TÍTULO
-     ========================================================= */
+  /* ============ 1 · TÍTULO ============ */
   .head{
     position:relative;z-index:3;text-align:center;padding-top:.3em;
     animation:rise .9s cubic-bezier(.22,.8,.3,1) both;
   }
-
   .eyebrow{
     font-family:'Montserrat',sans-serif;font-weight:300;
     font-size:clamp(9px,1.1vh,11.5px);
     letter-spacing:.5em;text-indent:.5em;text-transform:uppercase;
-    color:rgba(243,231,216,.78);
-    text-shadow:0 1px 14px rgba(17,6,15,.95);
+    color:rgba(243,231,216,.78);text-shadow:0 1px 14px rgba(17,6,15,.95);
   }
-
   .name{
     font-family:'Great Vibes','Segoe Script',cursive;font-weight:400;
     font-size:clamp(36px,8vh,74px);
@@ -124,14 +111,11 @@
     -webkit-background-clip:text;background-clip:text;color:transparent;
     filter:drop-shadow(0 4px 22px rgba(17,6,15,.85));
   }
-
   .rule{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:0}
   .rule span{display:block;width:clamp(36px,8vw,64px);height:1px;background:linear-gradient(90deg,transparent,rgba(214,174,105,.8),transparent)}
   .rule i{display:block;width:6px;height:6px;transform:rotate(45deg);border:1px solid rgba(214,174,105,.9)}
 
-  /* =========================================================
-     2 · NOTA sobre la foto
-     ========================================================= */
+  /* ============ 2 · NOTA sobre la foto ============ */
   .over-note{
     position:relative;z-index:3;
     width:fit-content;max-width:100%;
@@ -148,32 +132,23 @@
     animation:rise .9s cubic-bezier(.22,.8,.3,1) .25s both;
   }
 
-  /* =========================================================
-     3 · TARJETA
-     ========================================================= */
+  /* ============ 3 · TARJETA ============ */
   .sheet{
     position:relative;z-index:3;
     width:100%;max-width:520px;
     margin:0 auto 12px;
     padding:12px 14px 13px;
-    border:1px solid rgba(214,174,105,.3);
+    border:1px solid rgba(214,174,105,.34);
     border-radius:22px;
     background:linear-gradient(165deg, rgba(63,27,44,.30) 0%, rgba(30,13,24,.40) 55%, rgba(20,8,17,.52) 100%);
-    box-shadow:0 26px 70px -22px rgba(0,0,0,.85), inset 0 1px 0 rgba(255,255,255,.07);
+    box-shadow:0 26px 70px -22px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.08);
     -webkit-backdrop-filter:blur(22px) saturate(135%);
     backdrop-filter:blur(22px) saturate(135%);
     animation:rise .9s cubic-bezier(.22,.8,.3,1) .12s both;
   }
 
-  .sheet::before{
-    content:"";position:absolute;top:-4px;left:50%;width:7px;height:7px;
-    transform:translateX(-50%) rotate(45deg);background:#170A13;
-    border:1px solid rgba(214,174,105,.75);
-  }
-
   /* 3.1 el evento */
   .when{text-align:center}
-
   .date{
     font-family:'Montserrat',sans-serif;font-weight:400;
     font-size:clamp(10px,1.35vh,12px);
@@ -207,7 +182,6 @@
 
   /* 3.3 nombre */
   .field{margin-top:10px}
-
   .field label{
     display:block;
     font-family:'Montserrat',sans-serif;font-weight:400;
@@ -216,9 +190,7 @@
     color:rgba(243,231,216,.8);
     margin-bottom:.55em;text-align:center;
   }
-
   .input-wrap{position:relative}
-
   #who{
     width:100%;height:clamp(40px,5.2vh,46px);
     padding:0 40px;
@@ -238,7 +210,6 @@
     box-shadow:0 0 0 3px rgba(214,174,105,.15);
   }
   #who.err{border-color:rgba(224,130,130,.9)}
-
   .pen{
     position:absolute;right:13px;top:50%;transform:translateY(-50%);
     width:16px;height:16px;color:rgba(214,174,105,.8);pointer-events:none;
@@ -246,7 +217,6 @@
 
   /* 3.4 cuántos vienen */
   .counter{margin-top:10px;text-align:center}
-
   .counter .clabel{
     font-family:'Montserrat',sans-serif;font-weight:400;
     font-size:clamp(9.5px,1vh,10.5px);
@@ -260,9 +230,7 @@
     letter-spacing:.02em;text-indent:0;text-transform:none;
     color:rgba(243,231,216,.6);margin-left:.35em;
   }
-
   .stepper{display:flex;align-items:center;justify-content:center;gap:clamp(14px,4vw,20px);margin-top:.5em}
-
   .step{
     width:clamp(34px,4.6vh,40px);height:clamp(34px,4.6vh,40px);
     display:grid;place-items:center;border-radius:50%;
@@ -275,7 +243,6 @@
   .step:hover{background:rgba(214,174,105,.22);border-color:rgba(214,174,105,.8)}
   .step:active{transform:scale(.92)}
   .step:disabled{opacity:.3;cursor:default}
-
   .count{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:96px}
   .count b{
     font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;
@@ -352,7 +319,7 @@
 
   .foot{
     position:relative;display:flex;align-items:center;justify-content:center;
-    min-height:24px;margin-top:.35em;
+    min-height:26px;margin-top:.5em;
   }
 
   .troll{
@@ -378,7 +345,6 @@
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 
   .icons{position:absolute;right:0;top:50%;transform:translateY(-50%);display:flex;gap:8px}
-
   .icon{
     width:clamp(28px,3.5vh,32px);height:clamp(28px,3.5vh,32px);
     display:grid;place-items:center;border-radius:9px;
@@ -402,20 +368,7 @@
   }
   .toast.show{opacity:1;transform:translate(-50%,0)}
 
-  /* ---------------- motion ---------------- */
-  @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-
-  @media (prefers-reduced-motion:reduce){
-    .photo img{animation:none}
-    .head,.sheet,.over-note{animation:none}
-    .cta.pulse{animation:none}
-    .troll{transition:none}
-  }
-
-  /* =========================================================
-  /* =========================================================
-     OJITO: ver solo la foto unos segundos
-     ========================================================= */
+  /* ---------------- ojito ---------------- */
   .eye{
     align-self:center;margin-bottom:10px;
     width:36px;height:36px;border-radius:50%;
@@ -434,7 +387,9 @@
   body.solo .over-note,
   body.solo .sheet,
   body.solo .eye{display:none}
-  body.solo .veil{background:linear-gradient(180deg, rgba(17,6,15,.14) 0%, rgba(17,6,15,.06) 40%, rgba(17,6,15,.16) 100%)}
+  body.solo .veil{
+    background:linear-gradient(180deg, rgba(17,6,15,.14) 0%, rgba(17,6,15,.06) 40%, rgba(17,6,15,.16) 100%);
+  }
   body.solo .solo-hint{display:grid}
 
   .solo-hint{
@@ -446,11 +401,23 @@
     font-variant-numeric:tabular-nums;
   }
 
+  /* ---------------- motion ---------------- */
+  @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+  @media (prefers-reduced-motion:reduce){
+    .photo img{animation:none}
+    .head,.sheet,.over-note{animation:none}
+    .cta.pulse{animation:none}
+    .troll{transition:none}
+  }
+
+  /* =========================================================
      TECLADO ABIERTO: solo el formulario, centrado en lo visible
      ========================================================= */
   body.typing .stage{padding-bottom:calc(var(--pad) + env(safe-area-inset-bottom))}
   body.typing .head{display:none}
   body.typing .over-note{display:none}
+  body.typing .eye{display:none}
   body.typing .stage > div:empty{display:none}
   body.typing .photo{opacity:.16}
   body.typing .veil{background:linear-gradient(180deg,rgba(17,6,15,.93),rgba(17,6,15,.97))}
@@ -469,7 +436,7 @@
   }
 
   /* =========================================================
-     PANTALLAS BAJAS: se recorta lo secundario
+     PANTALLAS BAJAS
      ========================================================= */
   @media (max-height:640px){ .over-note{display:none} }
   @media (max-height:560px){
@@ -479,8 +446,6 @@
     .field{margin-top:8px}
     .counter{margin-top:8px}
   }
-
-  /* =========================================================
 
   /* =========================================================
      ESCRITORIO
@@ -498,7 +463,9 @@
     }
 
     .head{grid-column:1;grid-row:1;align-self:end;text-align:left}
-    .eye{grid-column:1;grid-row:2;justify-self:center;margin:0 0 14px clamp(4px,1vw,18px)}
+
+    .eye{grid-column:1;grid-row:2;justify-self:center;align-self:center;margin:0 0 14px clamp(4px,1vw,18px)}
+
     .rule{justify-content:flex-start}
     .name{font-size:clamp(56px,8.4vh,104px)}
 
@@ -532,14 +499,32 @@
 
     .photo img{object-position:60% 30%}
   }
-  }
 
   /* =========================================================
-     HORIZONTAL (va al final: tiene prioridad sobre escritorio)
+     HORIZONTAL
      ========================================================= */
-  /* =========================================================
-     HORIZONTAL (al final: tiene prioridad sobre escritorio)
-     ========================================================= */
+  @media (orientation:landscape) and (max-height:520px){
+    :root{--pad:10px}
+    .stage{padding:10px 16px}
+    .over-note,.countdown,.rule{display:none}
+    .head{text-align:left}
+    .name{font-size:clamp(26px,7vh,40px);padding:.1em .1em .12em}
+    .sheet{max-width:430px;padding:7px 14px;border-radius:16px;margin:auto auto 0 0}
+    .where{font-size:15px}
+    .field{margin-top:4px}
+    #who{height:32px;font-size:15px}
+    .counter{margin-top:4px}
+    .count b{font-size:22px}
+    .count small{font-size:7.5px;margin-top:2px}
+    .step{width:28px;height:28px;font-size:15px}
+    .cta{height:34px;margin-top:4px}
+    .foot{margin-top:4px}
+    .troll{font-size:13px}
+    .deadline{margin-top:2px}
+    .eye{margin-bottom:4px}
+    .photo img{object-position:80% 22%}
+  }
+</style>
 </head>
 <body>
 
@@ -568,6 +553,7 @@
       <circle cx="12" cy="12" r="2.6"/>
     </svg>
   </button>
+
   <p class="over-note">Hay comida y brindis 🥂 Cuéntanos cuántos vienen.</p>
 
   <section class="sheet" id="sheet">
@@ -614,11 +600,13 @@
       Confirmar por WhatsApp
     </button>
 
+    <p class="deadline" id="deadline">Antes del miércoles 28 porfa 🥺</p>
+
     <div class="nudge" id="nudge" role="status" aria-live="polite">
       <span class="emo">🥲</span>
       <span>Karen cuenta contigo</span>
       <span class="emo">👆</span>
-    </div>    <p class="deadline" id="deadline">Antes del miércoles 28 porfa 🥺</p>
+    </div>
 
     <div class="foot">
       <button class="troll" id="decline" type="button">No podré asistir</button>
@@ -642,6 +630,7 @@
 </div>
 
 <div class="solo-hint" id="soloHint" aria-hidden="true">4</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -761,7 +750,6 @@
   function dodge() {
     if (finished) { return; }
     tries++;
-
     if (tries >= MAX) { finishTroll(); return; }
 
     var box = sheet.getBoundingClientRect();
@@ -770,7 +758,6 @@
     var nx = (Math.random() * 2 - 1) * spanX / 2;
     var ny = (Math.random() * 2 - 1) * 14;
     var scale = 1 - tries * 0.11;
-
     troll.style.transform = 'translate(' + nx.toFixed(1) + 'px,' + ny.toFixed(1) + 'px) scale(' + scale.toFixed(2) + ')';
     if (navigator.vibrate) { navigator.vibrate(12); }
   }
@@ -790,7 +777,7 @@
   }
 
   troll.addEventListener('click', function (e) {
-    // teclado: deja una salida honesta
+    // teclado: salida honesta
     if (e.detail === 0) {
       goToWhatsApp('Hola 👋 No podré asistir al cumple de Karen. ¡Que lo disfruten! 🥂');
       return;
@@ -805,8 +792,41 @@
     dodge();
   });
 
-  /* ---------------- aviso que dirige al botón ---------------- */
-  var nudge = $('nudge');
+  /* ---------------- ojito: ver solo la foto ---------------- */
+  var eyeBtn = $('eye');
+  var soloTimer, soloTick;
+
+  function enterSolo() {
+    if (document.body.classList.contains('solo')) { return; }
+    document.body.classList.add('solo');
+    var left = 4;
+    var hint = $('soloHint');
+    if (hint) { hint.textContent = left; }
+    soloTick = setInterval(function () {
+      left--;
+      if (hint) { hint.textContent = left > 0 ? left : ''; }
+    }, 1000);
+    soloTimer = setTimeout(exitSolo, 4000);
+  }
+
+  function exitSolo() {
+    clearInterval(soloTick);
+    clearTimeout(soloTimer);
+    document.body.classList.remove('solo');
+  }
+
+  eyeBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    enterSolo();
+  });
+
+  document.addEventListener('click', function (e) {
+    if (document.body.classList.contains('solo') && e.target !== eyeBtn && !eyeBtn.contains(e.target)) { exitSolo(); }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (document.body.classList.contains('solo') && (e.key === 'Escape' || e.key === 'Enter')) { exitSolo(); }
+  });
 
   /* ---------------- calendario ---------------- */
   var ICS = [
@@ -862,50 +882,9 @@
     }
   });
 
-  /* ---------------- ojito: ver solo la foto ---------------- */
-  var eyeBtn = $('eye');
-  var soloTimer, soloTick;
-
-  function enterSolo() {
-    if (document.body.classList.contains('solo')) { return; }
-    document.body.classList.add('solo');
-    var left = 4;
-    var hint = $('soloHint');
-    if (hint) { hint.textContent = left; }
-    soloTick = setInterval(function () {
-      left--;
-      if (hint) { hint.textContent = left > 0 ? left : ''; }
-    }, 1000);
-    soloTimer = setTimeout(exitSolo, 4000);
-  }
-
-  function exitSolo() {
-    clearInterval(soloTimer);
-    clearTimeout(soloTimer);
-    document.body.classList.remove('solo');
-  }
-
-  eyeBtn.addEventListener('click', function (e) {
-    e.stopPropagation();
-    enterSolo();
-  });
-
-  // un toque en cualquier lado devuelve a la invitacion
-  document.addEventListener('click', function (e) {
-    if (document.body.classList.contains('solo') && e.target !== eyeBtn && !eyeBtn.contains(e.target)) { exitSolo(); }
-  });
-
-  // tap o tecla tambien devuelven
-  document.addEventListener('keydown', function (e) {
-    if (document.body.classList.contains('solo') && (e.key === 'Escape' || e.key === 'Enter')) { exitSolo(); }
-  });
-
-
   /* ---------------- espacio real del navegador ----------------
      El escenario vive en flujo normal: solo ocupa el área que se
-     ve (la barra del navegador, arriba en Chrome o abajo en Brave,
-     ya queda afuera porque usamos dvh). Con el teclado se fija y
-     se compacta para quedar siempre visible.                     */
+     ve. Con el teclado se fija y se compacta.                  */
   var baseH = 0;
   var supportsDvh = !!(window.CSS && CSS.supports && CSS.supports('height', '100dvh'));
 
@@ -931,7 +910,6 @@
     document.body.classList.toggle('typing', typing);
 
     if (typing) {
-      // teclado abierto: la tarjeta se fija sobre el área visible
       st.style.minHeight = '';
       st.style.marginTop = '';
       st.style.height = h + 'px';
@@ -940,11 +918,11 @@
       st.style.height = '';
       st.style.top = '';
       st.style.marginTop = top + 'px';
-      // con dvh el CSS ya descuenta la barra del navegador;
-      // sin dvh lo medimos nosotros
       st.style.minHeight = supportsDvh ? '' : h + 'px';
     }
-  }  if (window.visualViewport) {
+  }
+
+  if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', fit);
     window.visualViewport.addEventListener('scroll', fit);
   }
