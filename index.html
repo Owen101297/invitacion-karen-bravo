@@ -53,15 +53,24 @@
     top:0;
     left:0;
     right:0;
-    bottom:0;
+    height:100vh;
     display:grid;
     grid-template-rows:auto 1fr auto;
     padding:
       calc(var(--pad) + env(safe-area-inset-top))
       calc(var(--pad) + env(safe-area-inset-right))
-      calc(var(--pad) + env(safe-area-inset-bottom))
+      calc(var(--pad) + env(safe-area-inset-bottom) + var(--gap-bottom, 0px))
       calc(var(--pad) + env(safe-area-inset-left));
     transition:height .16s ease, top .16s ease;
+  }
+
+  /* 100dvh respeta la barra del navegador (Brave, Chrome, Safari) */
+  @supports (height:100dvh){
+    .stage{height:100dvh}
+  }
+
+  @media (max-width:900px){
+    :root{--gap-bottom:10px}
   }
 
   /* ---------------- foto ---------------- */
@@ -363,6 +372,38 @@
 
   .stepper{display:flex;align-items:center;gap:12px}
 
+  .count{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-width:64px;
+  }
+  .count span{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:clamp(30px,4.2vh,38px);
+    line-height:.92;
+    color:var(--gold-2);
+    font-variant-numeric:tabular-nums;
+    text-shadow:0 0 20px rgba(214,174,105,.4);
+    transition:color .2s ease, text-shadow .2s ease;
+  }
+  .count.zero span{
+    color:rgba(243,231,216,.72);
+    text-shadow:none;
+  }
+  .count small{
+    font-family:'Montserrat',sans-serif;
+    font-weight:300;
+    font-size:8px;
+    letter-spacing:.14em;
+    text-indent:.14em;
+    text-transform:uppercase;
+    color:rgba(243,231,216,.45);
+    margin-top:5px;
+    white-space:nowrap;
+  }
+
   .step{
     width:clamp(32px,4.4vh,38px);
     height:clamp(32px,4.4vh,38px);
@@ -386,11 +427,6 @@
   #total{
     min-width:2ch;
     text-align:center;
-    font-family:'Cormorant Garamond',Georgia,serif;
-    font-size:clamp(26px,3.6vh,32px);
-    line-height:1;
-    color:var(--gold-2);
-    font-variant-numeric:tabular-nums;
   }
 
   /* ---------------- botón ---------------- */
@@ -747,7 +783,10 @@
       <div class="counter-label" id="whoHelp">¿Cuántos vienen?<em>incluyéndote</em></div>
       <div class="stepper">
         <button class="step" id="minus" type="button" aria-label="Quitar una persona">−</button>
-        <span id="total" aria-live="polite">2</span>
+        <div class="count zero" id="count">
+          <span id="total" aria-live="polite">0</span>
+          <small id="totalWord">sin especificar</small>
+        </div>
         <button class="step" id="plus" type="button" aria-label="Agregar una persona">+</button>
       </div>
     </div>
@@ -824,23 +863,25 @@
   setInterval(tick, 30000);
 
   /* ---------------- contador ---------------- */
-  var total = 2;
+  var total = 0;
   try {
     var savedTotal = parseInt(localStorage.getItem(TOTAL_KEY), 10);
-    if (savedTotal >= 1 && savedTotal <= 15) { total = savedTotal; }
+    if (savedTotal >= 0 && savedTotal <= 15) { total = savedTotal; }
     var savedName = localStorage.getItem(NAME_KEY);
     if (savedName) { who.value = savedName; }
   } catch (e) {}
 
   function renderTotal() {
     totalEl.textContent = total;
-    minus.disabled = total <= 1;
+    $('totalWord').textContent = total === 0 ? 'sin especificar' : (total === 1 ? 'persona' : 'personas');
+    $('count').classList.toggle('zero', total === 0);
+    minus.disabled = total <= 0;
     plus.disabled = total >= 15;
     try { localStorage.setItem(TOTAL_KEY, String(total)); } catch (e) {}
   }
   renderTotal();
 
-  minus.addEventListener('click', function () { if (total > 1) { total--; renderTotal(); } });
+  minus.addEventListener('click', function () { if (total > 0) { total--; renderTotal(); } });
   plus.addEventListener('click', function () { if (total < 15) { total++; renderTotal(); } });
 
   who.addEventListener('input', function () {
@@ -864,8 +905,11 @@
     var intro = /^familia\b/i.test(name)
       ? 'Hola 👋 Soy de la ' + name.charAt(0).toLowerCase() + name.slice(1) + '.'
       : 'Hola 👋 Soy ' + name + '.';
+    var confirm = total === 0
+      ? '🥂 Me apunto al cumpleaños de Karen'
+      : '✅ Confirmo ' + total + (total === 1 ? ' persona' : ' personas') + ' para el cumple de Karen';
     return intro + '\n\n' +
-           '✅ Confirmo ' + total + (total === 1 ? ' persona' : ' personas') + ' para el cumple de Karen\n' +
+           confirm + '\n' +
            '🎂 Viernes 30 de octubre · 7:00 p. m.\n' +
            '📍 Casa de Yamit\n\n' +
            '¡Nos vemos! 🥂';
@@ -1013,23 +1057,23 @@
   });
 
   /* ---------------- teclado móvil ----------------
-     Ajustamos el escenario al área realmente visible para que
-     el teclado no empuje ni corte nada.                                */
+     El escenario se ajusta SIEMPRE al área realmente visible
+     (respeta la barra del navegador) y se compacta si hay teclado. */
+  var baseH = 0;
+
   function fit() {
     var vv = window.visualViewport;
     if (!vv) { return; }
     var h = Math.round(vv.height);
     var top = Math.round(vv.offsetTop);
-    var hidden = Math.max(0, window.innerHeight - h - top);
-    var typing = hidden > 90;
+    var focused = (document.activeElement === who);
 
-    if (typing) {
-      stage.style.height = h + 'px';
-      stage.style.top = top + 'px';
-    } else {
-      stage.style.height = '';
-      stage.style.top = '';
-    }
+    if (!focused && h > baseH) { baseH = h; }
+
+    var typing = focused && baseH > 0 && (baseH - h) > 60;
+
+    stage.style.height = h + 'px';
+    stage.style.top = top + 'px';
     document.body.classList.toggle('typing', typing);
   }
 
@@ -1037,18 +1081,14 @@
     window.visualViewport.addEventListener('resize', fit);
     window.visualViewport.addEventListener('scroll', fit);
   }
-  window.addEventListener('orientationchange', function () { setTimeout(fit, 250); });
+  window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', function () { setTimeout(fit, 300); });
 
-  who.addEventListener('focus', function () {
-    document.body.classList.add('typing');
-    fit();
-  });
-  who.addEventListener('blur', function () {
-    setTimeout(function () {
-      document.body.classList.remove('typing');
-      fit();
-    }, 120);
-  });
+  who.addEventListener('focus', function () { setTimeout(fit, 60); });
+  who.addEventListener('blur', function () { setTimeout(fit, 150); });
+
+  fit();
+  setTimeout(fit, 400);
 
 })();
 </script>
