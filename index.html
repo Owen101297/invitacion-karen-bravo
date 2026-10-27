@@ -608,6 +608,12 @@
 
   <div></div>
 
+  <button class="eye" id="eye" type="button" aria-label="Ver solo la foto" title="Ver solo la foto">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/>
+      <circle cx="12" cy="12" r="2.6"/>
+    </svg>
+  </button>
   <p class="over-note">Hay comida y brindis 🥂 Cuéntanos cuántos vienen.</p>
 
   <section class="sheet" id="sheet">
@@ -681,6 +687,7 @@
 
 </div>
 
+<div class="solo-hint" id="soloHint" aria-hidden="true">4</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -900,6 +907,45 @@
       showToast(location.href, 5000);
     }
   });
+
+  /* ---------------- ojito: ver solo la foto ---------------- */
+  var eyeBtn = $('eye');
+  var soloTimer, soloTick;
+
+  function enterSolo() {
+    if (document.body.classList.contains('solo')) { return; }
+    document.body.classList.add('solo');
+    var left = 4;
+    var hint = $('soloHint');
+    if (hint) { hint.textContent = left; }
+    soloTick = setInterval(function () {
+      left--;
+      if (hint) { hint.textContent = left > 0 ? left : ''; }
+    }, 1000);
+    soloTimer = setTimeout(exitSolo, 4000);
+  }
+
+  function exitSolo() {
+    clearInterval(soloTimer);
+    clearTimeout(soloTimer);
+    document.body.classList.remove('solo');
+  }
+
+  eyeBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    enterSolo();
+  });
+
+  // un toque en cualquier lado devuelve a la invitacion
+  document.addEventListener('click', function (e) {
+    if (document.body.classList.contains('solo') && e.target !== eyeBtn && !eyeBtn.contains(e.target)) { exitSolo(); }
+  });
+
+  // tap o tecla tambien devuelven
+  document.addEventListener('keydown', function (e) {
+    if (document.body.classList.contains('solo') && (e.key === 'Escape' || e.key === 'Enter')) { exitSolo(); }
+  });
+
 
   /* ---------------- espacio real del navegador ----------------
      El escenario vive en flujo normal: solo ocupa el área que se
