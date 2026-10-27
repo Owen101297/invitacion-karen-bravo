@@ -35,8 +35,8 @@
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
   html,body{
-    height:100%;
-    overflow:clip;
+    min-height:100%;
+    overflow-x:hidden;
     background:#11060F;
     -webkit-text-size-adjust:100%;
   }
@@ -47,27 +47,26 @@
     -webkit-font-smoothing:antialiased;
   }
 
-  /* ---------------- escenario ---------------- */
+  /* ---------------- escenario ----------------
+     Flujo normal (no fixed): el contenido nunca queda debajo de la
+     barra del navegador, sin importar si va arriba (Chrome) o abajo
+     (Brave). dvh ya descuenta esa barra.                          */
   .stage{
-    position:fixed;
-    inset:0;
-    display:grid;
-    grid-template-rows:auto 1fr auto;
+    position:relative;
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
     padding:
-      calc(var(--pad) + env(safe-area-inset-top) + var(--gap-top, 0px))
+      calc(var(--pad) + env(safe-area-inset-top))
       calc(var(--pad) + env(safe-area-inset-right))
-      calc(var(--pad) + env(safe-area-inset-bottom) + var(--gap-bottom, 0px))
+      calc(var(--pad) + env(safe-area-inset-bottom))
       calc(var(--pad) + env(safe-area-inset-left));
-    transition:padding .16s ease;
-  }
-
-  @media (max-width:900px){
-    :root{--gap-bottom:10px}
   }
 
   /* ---------------- foto ---------------- */
   .photo{
-    position:absolute;
+    position:fixed;
     inset:0;
     z-index:0;
     overflow:hidden;
@@ -90,7 +89,7 @@
 
   /* velos: arriba para el título, abajo para la tarjeta */
   .veil{
-    position:absolute;
+    position:fixed;
     inset:0;
     z-index:1;
     pointer-events:none;
@@ -112,7 +111,7 @@
   }
 
   .grain{
-    position:absolute;
+    position:fixed;
     inset:0;
     z-index:2;
     pointer-events:none;
@@ -172,7 +171,7 @@
     z-index:3;
     width:100%;
     max-width:520px;
-    margin:0 auto;
+    margin:auto auto 0;
     padding:calc(var(--pad) * .9) calc(var(--pad) * .9);
     border:1px solid rgba(214,174,105,.3);
     border-radius:20px;
@@ -617,6 +616,11 @@
      TECLADO ABIERTO: la tarjeta se compacta y se centra
      ========================================================= */
   body.typing .stage{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:auto;
+    min-height:0;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -665,8 +669,7 @@
     .note,.countdown,.rule{display:none}
     .head{text-align:left}
     .name{font-size:clamp(26px,7.4vh,40px);padding:.1em .1em .12em}
-    .sheet{max-width:440px;padding:9px 14px;border-radius:16px;margin:0 auto 0 0}
-    .where{font-size:15px}
+    .sheet{max-width:440px;padding:9px 14px;border-radius:16px;margin:auto auto 0 0}    .where{font-size:15px}
     .field{margin-top:6px}
     #who{height:38px;font-size:16px}
     .cta{height:38px;margin-top:6px}
@@ -695,6 +698,7 @@
     :root{--pad:20px}
 
     .stage{
+      display:grid;
       grid-template-columns:minmax(300px,520px) minmax(0,1fr);
       grid-template-rows:auto auto;
       align-content:center;
@@ -1068,43 +1072,45 @@
   });
 
   /* ---------------- espacio real del navegador ----------------
-     Medimos cuánto tapura la interfaz del navegador (arriba o abajo,
-     Brave, Chrome o Safari) y el teclado, y lo respetamos con padding.
-     Así el contenido nunca queda debajo de la barra de direcciones.   */
+     El escenario vive en flujo normal: solo ocupa el área que se ve
+     (la barra del navegador, arriba en Chrome o abajo en Brave, ya
+     queda afuera porque usamos dvh). Con el teclado se fija y se
+     compacta para quedar siempre visible.                          */
   var baseH = 0;
 
   function fit() {
-    var root = document.documentElement;
+    var st = $('stage');
     var vv = window.visualViewport;
-    var layoutH = stage.getBoundingClientRect().height;   // alto real del escenario
-    if (!layoutH) { layoutH = window.innerHeight; }
 
     if (!vv) {
-      root.style.setProperty('--gap-top', '0px');
-      root.style.setProperty('--gap-bottom', '0px');
+      document.body.classList.remove('typing');
+      st.style.minHeight = '';
+      st.style.marginTop = '';
+      st.style.height = '';
+      st.style.top = '';
       return;
     }
 
-    var visibleBottom = vv.offsetTop + vv.height;
-    var gapTop = Math.max(0, vv.offsetTop);
-    var gapBottom = Math.max(0, layoutH - visibleBottom);
-
-    // doble chequeo con innerHeight por si el navegador no reporta bien
-    var innerGap = Math.max(0, (window.innerHeight || 0) - visibleBottom);
-    gapBottom = Math.max(gapBottom, innerGap);
-
-    // topes de seguridad: nunca más del 35% arriba ni 55% abajo
-    gapTop = Math.min(gapTop, layoutH * 0.35);
-    gapBottom = Math.min(gapBottom, layoutH * 0.55);
-
-    root.style.setProperty('--gap-top', gapTop + 'px');
-    root.style.setProperty('--gap-bottom', gapBottom + 'px');
-
-    // modo teclado: detectamos que el área visible se achicó
+    var h = Math.round(vv.height);
+    var top = Math.round(vv.offsetTop);
     var focused = (document.activeElement === who);
-    if (!focused && vv.height > baseH) { baseH = vv.height; }
-    var typing = focused && baseH > 0 && (baseH - vv.height) > 60;
+    if (!focused && h > baseH) { baseH = h; }
+    var typing = focused && baseH > 0 && (baseH - h) > 60;
+
     document.body.classList.toggle('typing', typing);
+
+    if (typing) {
+      // teclado abierto: la tarjeta se fija sobre el área visible
+      st.style.minHeight = '';
+      st.style.marginTop = '';
+      st.style.height = h + 'px';
+      st.style.top = top + 'px';
+    } else {
+      st.style.height = '';
+      st.style.top = '';
+      st.style.minHeight = h + 'px';
+      st.style.marginTop = top + 'px';
+    }
   }
 
   if (window.visualViewport) {
