@@ -641,15 +641,19 @@
 
   /* ---------------- pantallas muy angostas ---------------- */
   @media (max-width:345px){
+    .note{font-size:13px}
+    .stepper{gap:14px}
+  }
+
+  /* en celular el contador va apilado: el número manda */
+  @media (max-width:899px){
     .counter-row{
       flex-direction:column;
       align-items:center;
       gap:10px;
     }
-    .counter-label{text-align:center;letter-spacing:.14em;text-indent:.14em}
+    .counter-label{text-align:center}
     .counter-label em{margin-top:.35em}
-    .stepper{gap:14px}
-    .note{font-size:13px}
   }
 
   /* ---------------- pantallas bajas ---------------- */
