@@ -42,9 +42,11 @@ GitHub Pages publica los cambios en 1-2 minutos.
 - El tamaño del texto se adapta a la altura de la pantalla (`clamp` + `svh`), así que
   nunca aparece scroll. Verificado en 13 tamaños, de 320×568 a 1440×900, y también
   con el aviso del botón escurridizo visible (el peor caso).
-- **La barra del navegador**: el escenario usa `100dvh` y además se mide en vivo con
-  `visualViewport`, así que el contenido nunca queda pegado al link del navegador
-  (Brave, Chrome o Safari) ni debajo de la barra de direcciones.
+- **La barra del navegador**: la página mide en vivo, con `visualViewport`, cuánto
+  ocupa la interfaz del navegador (la barra de direcciones puede ir arriba en Chrome
+  o abajo en Brave) y cuánto ocupa el teclado, y lo respeta con `padding` real.
+  El contenido nunca queda pegado al link ni debajo de la barra. Si el navegador no
+  reporta el dato, el margen de aire base sigue ahí.
 - En pantallas bajas (menos de 720 px) se oculta la nota de "hay comida y brindis",
   y bajo 620 px también la cuenta regresiva.
 - **Al abrir el teclado**: el escenario se ajusta al área realmente visible, la foto
