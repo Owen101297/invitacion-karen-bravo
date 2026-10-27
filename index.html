@@ -86,9 +86,9 @@
         rgba(20,8,16,.34) 21%,
         rgba(23,10,19,.10) 32%,
         rgba(23,10,19,0) 44%,
-        rgba(23,10,19,.12) 58%,
-        rgba(23,10,19,.60) 74%,
-        rgba(17,6,15,.94) 88%,
+        rgba(23,10,19,.06) 58%,
+        rgba(23,10,19,.44) 74%,
+        rgba(17,6,15,.90) 88%,
         #11060F 100%),
       radial-gradient(130% 90% at 72% 30%, rgba(17,6,15,0) 30%, rgba(17,6,15,.26) 100%),
       radial-gradient(70% 22% at 50% 8%, rgba(17,6,15,.55), rgba(17,6,15,0) 78%),
@@ -154,14 +154,14 @@
   .sheet{
     position:relative;z-index:3;
     width:100%;max-width:520px;
-    margin:0 auto;
-    padding:clamp(14px,2vh,20px) clamp(14px,3.6vw,20px);
+    margin:0 auto 12px;
+    padding:12px 14px 13px;
     border:1px solid rgba(214,174,105,.3);
-    border-radius:20px 20px 16px 16px;
-    background:linear-gradient(165deg, rgba(63,27,44,.66) 0%, rgba(30,13,24,.78) 55%, rgba(20,8,17,.88) 100%);
+    border-radius:22px;
+    background:linear-gradient(165deg, rgba(63,27,44,.30) 0%, rgba(30,13,24,.40) 55%, rgba(20,8,17,.52) 100%);
     box-shadow:0 26px 70px -22px rgba(0,0,0,.85), inset 0 1px 0 rgba(255,255,255,.07);
-    -webkit-backdrop-filter:blur(16px) saturate(125%);
-    backdrop-filter:blur(16px) saturate(125%);
+    -webkit-backdrop-filter:blur(22px) saturate(135%);
+    backdrop-filter:blur(22px) saturate(135%);
     animation:rise .9s cubic-bezier(.22,.8,.3,1) .12s both;
   }
 
@@ -194,7 +194,7 @@
   }
 
   /* 3.2 separador con rótulo */
-  .form-head{display:flex;align-items:center;gap:12px;margin-top:clamp(12px,2vh,18px)}
+  .form-head{display:flex;align-items:center;gap:12px;margin-top:12px}
   .form-head::before,
   .form-head::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(214,174,105,.36))}
   .form-head::after{background:linear-gradient(90deg,rgba(214,174,105,.36),transparent)}
@@ -206,7 +206,7 @@
   }
 
   /* 3.3 nombre */
-  .field{margin-top:clamp(10px,1.6vh,15px)}
+  .field{margin-top:10px}
 
   .field label{
     display:block;
@@ -220,7 +220,7 @@
   .input-wrap{position:relative}
 
   #who{
-    width:100%;height:clamp(42px,5.4vh,48px);
+    width:100%;height:clamp(40px,5.2vh,46px);
     padding:0 40px;
     background:rgba(214,174,105,.07);
     border:1px solid rgba(214,174,105,.4);border-radius:12px;
@@ -245,7 +245,7 @@
   }
 
   /* 3.4 cuántos vienen */
-  .counter{margin-top:clamp(10px,1.6vh,15px);text-align:center}
+  .counter{margin-top:10px;text-align:center}
 
   .counter .clabel{
     font-family:'Montserrat',sans-serif;font-weight:400;
@@ -295,8 +295,8 @@
   /* 3.5 botón principal */
   .cta{
     display:flex;align-items:center;justify-content:center;gap:10px;
-    width:100%;height:clamp(48px,6.4vh,56px);
-    margin-top:clamp(12px,1.9vh,17px);
+    width:100%;height:clamp(46px,6vh,54px);
+    margin-top:12px;
     border:0;border-radius:999px;
     background:linear-gradient(135deg,#F8E8BE 0%,#DCB779 46%,#C1934A 100%);
     color:#2A1020;
@@ -352,7 +352,7 @@
 
   .foot{
     position:relative;display:flex;align-items:center;justify-content:center;
-    min-height:26px;margin-top:.5em;
+    min-height:24px;margin-top:.35em;
   }
 
   .troll{
