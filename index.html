@@ -64,6 +64,12 @@
       calc(var(--pad) + env(safe-area-inset-left));
   }
 
+  @media (max-width:900px){
+    .stage{
+      padding-bottom:calc(var(--pad) + 12px + env(safe-area-inset-bottom));
+    }
+  }
+
   /* ---------------- foto ---------------- */
   .photo{
     position:fixed;
@@ -1077,6 +1083,7 @@
      queda afuera porque usamos dvh). Con el teclado se fija y se
      compacta para quedar siempre visible.                          */
   var baseH = 0;
+  var supportsDvh = !!(window.CSS && CSS.supports && CSS.supports('height', '100dvh'));
 
   function fit() {
     var st = $('stage');
@@ -1108,8 +1115,10 @@
     } else {
       st.style.height = '';
       st.style.top = '';
-      st.style.minHeight = h + 'px';
       st.style.marginTop = top + 'px';
+      // con dvh el CSS ya descuenta la barra del navegador;
+      // sin dvh lo medimos nosotros
+      st.style.minHeight = supportsDvh ? '' : h + 'px';
     }
   }
 
