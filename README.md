@@ -4,8 +4,12 @@ Sitio de la invitación: **https://owen101297.github.io/invitacion-karen-bravo/*
 
 Viernes 30 de octubre · 7:00 p. m. · Casa de Yamit
 
-Todo cabe en una sola pantalla, sin scroll: la foto de Karen de fondo y una tarjeta
-de vidrio abajo con la fecha, el formulario y el botón de WhatsApp.
+Todo cabe en una sola pantalla, sin scroll, en cualquier dispositivo:
+
+- El titulo arriba, sobre la foto.
+- La foto de Karen ocupando el fondo, con la cara siempre libre de textos.
+- Una nota corta sobre la imagen: Hay comida, bebida y brindis. Solo cuentanos cuantos vienen.
+- La tarjeta de vidrio abajo (o a la izquierda en escritorio) con: fecha, hora, lugar, cuenta regresiva, el formulario y los botones.
 
 ## Cómo funciona la confirmación
 
