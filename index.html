@@ -50,23 +50,15 @@
   /* ---------------- escenario ---------------- */
   .stage{
     position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    height:100vh;
+    inset:0;
     display:grid;
     grid-template-rows:auto 1fr auto;
     padding:
-      calc(var(--pad) + env(safe-area-inset-top))
+      calc(var(--pad) + env(safe-area-inset-top) + var(--gap-top, 0px))
       calc(var(--pad) + env(safe-area-inset-right))
       calc(var(--pad) + env(safe-area-inset-bottom) + var(--gap-bottom, 0px))
       calc(var(--pad) + env(safe-area-inset-left));
-    transition:height .16s ease, top .16s ease;
-  }
-
-  /* 100dvh respeta la barra del navegador (Brave, Chrome, Safari) */
-  @supports (height:100dvh){
-    .stage{height:100dvh}
+    transition:padding .16s ease;
   }
 
   @media (max-width:900px){
@@ -1075,24 +1067,39 @@
     }
   });
 
-  /* ---------------- teclado móvil ----------------
-     El escenario se ajusta SIEMPRE al área realmente visible
-     (respeta la barra del navegador) y se compacta si hay teclado. */
+  /* ---------------- espacio real del navegador ----------------
+     Medimos cuánto tapura la interfaz del navegador (arriba o abajo,
+     Brave, Chrome o Safari) y el teclado, y lo respetamos con padding.
+     Así el contenido nunca queda debajo de la barra de direcciones.   */
   var baseH = 0;
 
   function fit() {
+    var root = document.documentElement;
     var vv = window.visualViewport;
-    if (!vv) { return; }
-    var h = Math.round(vv.height);
-    var top = Math.round(vv.offsetTop);
+    var layoutH = stage.getBoundingClientRect().height;   // alto real del escenario
+    if (!layoutH) { layoutH = window.innerHeight; }
+
+    if (!vv) {
+      root.style.setProperty('--gap-top', '0px');
+      root.style.setProperty('--gap-bottom', '0px');
+      return;
+    }
+
+    var visibleBottom = vv.offsetTop + vv.height;
+    var gapTop = Math.max(0, vv.offsetTop);
+    var gapBottom = Math.max(0, layoutH - visibleBottom);
+
+    // topes de seguridad: nunca más del 35% arriba ni 55% abajo
+    gapTop = Math.min(gapTop, layoutH * 0.35);
+    gapBottom = Math.min(gapBottom, layoutH * 0.55);
+
+    root.style.setProperty('--gap-top', gapTop + 'px');
+    root.style.setProperty('--gap-bottom', gapBottom + 'px');
+
+    // modo teclado: detectamos que el área visible se achicó
     var focused = (document.activeElement === who);
-
-    if (!focused && h > baseH) { baseH = h; }
-
-    var typing = focused && baseH > 0 && (baseH - h) > 60;
-
-    stage.style.height = h + 'px';
-    stage.style.top = top + 'px';
+    if (!focused && vv.height > baseH) { baseH = vv.height; }
+    var typing = focused && baseH > 0 && (baseH - vv.height) > 60;
     document.body.classList.toggle('typing', typing);
   }
 
@@ -1107,7 +1114,8 @@
   who.addEventListener('blur', function () { setTimeout(fit, 150); });
 
   fit();
-  setTimeout(fit, 400);
+  setTimeout(fit, 300);
+  setTimeout(fit, 900);
 
 })();
 </script>
